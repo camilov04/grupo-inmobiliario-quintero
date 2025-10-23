@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="filtros">
+    <form method="get">
+        <input type="text" name="municipio" placeholder="Municipio">
+        <select name="tipo">
+            <option value="">Tipo</option>
+            <option value="Casa">Casa</option>
+            <option value="Apartamento">Apartamento</option>
+        </select>
+        <input type="number" name="habitaciones" placeholder="Habitaciones">
+        <input type="number" name="valor_min" placeholder="Valor mínimo">
+        <input type="number" name="valor_max" placeholder="Valor máximo">
+        <button type="submit">Filtrar</button>
+    </form>
+</section>
+
+<section class="listado">
+    {% if inmuebles %}
+        {% for i in inmuebles %}
+            <div class="card">
+                <h3>{{ i.tipo }} en {{ i.municipio }}</h3>
+                <p>Habitaciones: {{ i.habitaciones }}</p>
+                <p>Valor: ${{ "{:,}".format(i.valor) }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No se encontraron inmuebles con los criterios seleccionados.</p>
+    {% endif %}
+</section>
+{% endblock %}
