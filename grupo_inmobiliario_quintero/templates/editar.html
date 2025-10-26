@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="form-editar">
+    <h2>Editar inmueble</h2>
+    <form method="POST">
+        <label>Tipo:</label>
+        <input type="text" name="tipo" value="{{ inmueble.tipo }}" required><br>
+
+        <label>Municipio:</label>
+        <input type="text" name="municipio" value="{{ inmueble.municipio }}" required><br>
+
+        <label>Habitaciones:</label>
+        <input type="number" name="habitaciones" value="{{ inmueble.habitaciones }}" required><br>
+
+        <label>Valor:</label>
+        <input type="number" name="valor" value="{{ inmueble.valor }}" required><br>
+
+        <label>Imagen URL:</label>
+        <input type="text" name="imagen_url" value="{{ inmueble.imagen_url }}"><br>
+
+        <button type="submit">💾 Guardar cambios</button>
+        <a href="{{ url_for('admin') }}">Cancelar</a>
+    </form>
+</section>
+{% endblock %}

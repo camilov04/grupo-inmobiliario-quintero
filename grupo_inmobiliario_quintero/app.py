@@ -88,6 +88,29 @@ def editar(id):
 
     return render_template("editar.html", inmueble=inmueble)
 
+@app.route("/editar/<int:id>", methods=["GET", "POST"])
+def editar_inmueble(id):
+    global INMUEBLES  # asegúrate de tener esto
+    inmueble = INMUEBLES[id] if 0 <= id < len(INMUEBLES) else None
+
+    if not inmueble:
+        return "Inmueble no encontrado", 404
+
+    if request.method == "POST":
+        inmueble["tipo"] = request.form["tipo"]
+        inmueble["municipio"] = request.form["municipio"]
+        inmueble["habitaciones"] = int(request.form["habitaciones"])
+        inmueble["valor"] = int(request.form["valor"])
+        inmueble["imagen_url"] = request.form["imagen_url"]
+        return redirect(url_for("admin"))
+
+    return render_template("editar.html", inmueble=inmueble, id=id)
+
+@app.route('/eliminar/<int:id>', methods=['POST'])
+def eliminar(id):
+    del INMUEBLES[id]
+    return redirect(url_for('admin'))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

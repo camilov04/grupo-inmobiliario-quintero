@@ -36,4 +36,32 @@
         </li>
     {% endfor %}
 </ul>
+<h2>Lista de inmuebles</h2>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Tipo</th>
+        <th>Municipio</th>
+        <th>Habitaciones</th>
+        <th>Valor</th>
+        <th>Imagen</th>
+        <th>Acciones</th>
+    </tr>
+    {% for i in inmuebles %}
+    <tr>
+        <td>{{ i.id }}</td>
+        <td>{{ i.tipo }}</td>
+        <td>{{ i.municipio }}</td>
+        <td>{{ i.habitaciones }}</td>
+        <td>${{ i.valor }}</td>
+        <td><img src="{{ i.imagen_url }}" width="100"></td>
+        <td>
+            <a href="{{ url_for('editar_inmueble', id=loop.index0) }}">✏️ Editar</a>
+            <form action="{{ url_for('eliminar', id=loop.index0) }}" method="POST" style="display:inline;">
+                <button type="submit">Eliminar</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}
