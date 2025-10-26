@@ -4,29 +4,35 @@
 <section class="form-editar">
     <h2>Editar inmueble</h2>
     <form method="POST">
-        <label for="tipo">Tipo de inmueble:</label>
-            <select name="tipo" id="tipo" required>
-                <option value="Apartamento" {% if inmueble and inmueble.tipo == "Apartamento" %}selected{% endif %}>Apartamento</option>
-                <option value="Casa" {% if inmueble and inmueble.tipo == "Casa" %}selected{% endif %}>Casa</option>
-                <option value="Local" {% if inmueble and inmueble.tipo == "Local" %}selected{% endif %}>Local</option>
-                <option value="Lote" {% if inmueble and inmueble.tipo == "Lote" %}selected{% endif %}>Lote</option>
-                <option value="Oficina" {% if inmueble and inmueble.tipo == "Oficina" %}selected{% endif %}>Oficina</option>
-            </select>
+        <label>Título:</label>
+        <input type="text" name="titulo" value="{{ inmueble.titulo }}" required><br>
+
+        <label>Descripción:</label>
+        <textarea name="descripcion" required>{{ inmueble.descripcion }}</textarea><br>
+
+        <label>Tipo de inmueble:</label>
+        <select name="tipo" required>
+            <option value="Apartamento" {% if inmueble.tipo == "Apartamento" %}selected{% endif %}>Apartamento</option>
+            <option value="Casa" {% if inmueble.tipo == "Casa" %}selected{% endif %}>Casa</option>
+            <option value="Local" {% if inmueble.tipo == "Local" %}selected{% endif %}>Local</option>
+            <option value="Lote" {% if inmueble.tipo == "Lote" %}selected{% endif %}>Lote</option>
+            <option value="Oficina" {% if inmueble.tipo == "Oficina" %}selected{% endif %}>Oficina</option>
+        </select><br>
 
         <label>Municipio:</label>
         <input type="text" name="municipio" value="{{ inmueble.municipio }}" required><br>
 
         <label>Habitaciones:</label>
-        <input type="number" name="habitaciones" value="{{ inmueble.habitaciones }}" required><br>
+        <input type="number" name="habitaciones" value="{{ inmueble.habitaciones }}" min="1" required><br>
 
-        <label>Valor:</label>
-        <input type="number" name="valor" value="{{ inmueble.valor }}" required><br>
+        <label>Precio:</label>
+        <input type="number" name="precio" value="{{ inmueble.precio }}" min="0" required><br>
 
         <label>Imagen URL:</label>
-        <input type="text" name="imagen_url" value="{{ inmueble.imagen_url }}"><br>
+        <input type="text" name="imagen" value="{{ inmueble.imagen }}"><br>
 
         <button type="submit">💾 Guardar cambios</button>
-        <a href="{{ url_for('admin') }}">Cancelar</a>
+        <a href="{{ url_for('panel_admin') }}">Cancelar</a>
     </form>
 </section>
 {% endblock %}

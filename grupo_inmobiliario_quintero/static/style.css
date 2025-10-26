@@ -150,83 +150,76 @@ button:hover, input[type="submit"]:hover {
         gap: 10px;
     }
 
-    /* ====== LOGIN ====== */
+/* ======== LOGIN PAGE (Forzado al centro) ======== */
+body.login-page {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background: linear-gradient(135deg, #004080, #0077cc) !important;
+    overflow: hidden !important;
+}
+
+/* Cuadro flotante */
 .login-container {
-    max-width: 400px;
-    margin: 80px auto;
-    background-color: white;
-    padding: 40px 35px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background: #fff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    width: 350px;
     text-align: center;
+    position: relative;
+    z-index: 10;
 }
 
-.login-container h2 {
-    color: #003366;
-    margin-bottom: 25px;
-    font-size: 1.5rem;
-    letter-spacing: 0.5px;
-}
-
-.login-container img {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 15px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #0055aa;
-}
-
-.login-container form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
+/* Inputs y botones */
 .login-container label {
+    display: block;
     text-align: left;
-    font-weight: 600;
+    margin-top: 10px;
     color: #333;
+    font-weight: 500;
 }
 
 .login-container input[type="text"],
 .login-container input[type="password"] {
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
     width: 100%;
-    font-size: 0.95rem;
-}
-
-.login-container input:focus {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
     outline: none;
-    border-color: #0055aa;
-    box-shadow: 0 0 5px rgba(0,85,170,0.3);
+    font-size: 15px;
 }
 
 .login-container input[type="submit"] {
-    background-color: #0055aa;
-    color: white;
-    font-weight: 600;
+    width: 100%;
+    margin-top: 18px;
+    background: #007bff;
+    color: #fff;
     border: none;
-    cursor: pointer;
-    border-radius: 6px;
     padding: 10px;
-    transition: background-color 0.2s;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 16px;
 }
 
 .login-container input[type="submit"]:hover {
-    background-color: #003f7d;
+    background: #0056b3;
 }
 
-/* Mensajes flash */
+/* Mensajes */
 .flash-message {
-    margin-top: 15px;
-    font-weight: 500;
+    margin-top: 12px;
+    font-size: 14px;
 }
 
-.flash-message.success { color: green; }
-.flash-message.danger { color: red; }
-.flash-message.warning { color: #e6b800; }
-.flash-message.info { color: #0077cc; }
+.flash-message.error {
+    color: red;
+}
+
 }

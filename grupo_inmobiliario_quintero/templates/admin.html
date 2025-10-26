@@ -3,16 +3,19 @@
 {% block content %}
 <h2>Panel de Administración</h2>
 <a href="{{ url_for('logout') }}" class="btn-delete" style="float:right;">Cerrar sesión</a>
-<form method="POST">
+
+<!-- FORMULARIO AGREGAR INMUEBLE -->
+<h3>Agregar nuevo inmueble</h3>
+<form method="POST" action="{{ url_for('agregar_inmueble') }}">
     <label for="tipo">Tipo de inmueble:</label>
-        <select name="tipo" id="tipo" required>
-            <option value=""> </option>
-            <option value="Apartamento" {% if inmueble and inmueble.tipo == "Apartamento" %}selected{% endif %}>Apartamento</option>
-            <option value="Casa" {% if inmueble and inmueble.tipo == "Casa" %}selected{% endif %}>Casa</option>
-            <option value="Local" {% if inmueble and inmueble.tipo == "Local" %}selected{% endif %}>Local</option>
-            <option value="Lote" {% if inmueble and inmueble.tipo == "Lote" %}selected{% endif %}>Lote</option>
-            <option value="Oficina" {% if inmueble and inmueble.tipo == "Oficina" %}selected{% endif %}>Oficina</option>
-        </select><br>
+    <select name="tipo" id="tipo" required>
+        <option value=""> </option>
+        <option value="Apartamento">Apartamento</option>
+        <option value="Casa">Casa</option>
+        <option value="Local">Local</option>
+        <option value="Lote">Lote</option>
+        <option value="Oficina">Oficina</option>
+    </select><br>
 
     <label>Municipio:</label>
     <input type="text" name="municipio" required><br>
@@ -24,24 +27,15 @@
     <input type="number" name="valor" min="0" required><br>
 
     <label>URL de la imagen:</label>
-    <input type="text" name="imagen_url" placeholder="https://..." required><br>
+    <input type="text" name="imagen" placeholder="https://..." required><br>
 
     <button type="submit">Agregar inmueble</button>
 </form>
 
 <hr>
 
-<h3>Lista actual de inmuebles</h3>
-<ul>
-    {% for inmueble in inmuebles %}
-        <li>
-            <strong>{{ inmueble.tipo }}</strong> en {{ inmueble.municipio }} - ${{ inmueble.valor }}
-            <br>
-            <img src="{{ inmueble.imagen_url }}" alt="Imagen" width="150">
-        </li>
-    {% endfor %}
-</ul>
-<h2>Lista de inmuebles</h2>
+<!-- TABLA DE INMUEBLES -->
+<h3>Lista de inmuebles</h3>
 <table border="1">
     <tr>
         <th>ID</th>
@@ -59,11 +53,20 @@
         <td>{{ i.municipio }}</td>
         <td>{{ i.habitaciones }}</td>
         <td>${{ i.valor }}</td>
-        <td><img src="{{ i.imagen_url }}" width="100"></td>
         <td>
-            <a href="{{ url_for('editar_inmueble', id=loop.index0) }}">✏️ Editar</a>
-            <form action="{{ url_for('eliminar', id=loop.index0) }}" method="POST" style="display:inline;">
-                <button type="submit">Eliminar</button>
+            {% if i.imagen %}
+                <img src="{{ i.imagen }}" width="100">
+            {% else %}
+                No hay imagen
+            {% endif %}
+        </td>
+        <td>
+            <!-- EDITAR -->
+            <a href="{{ url_for('editar_inmueble', id=i.id) }}">✏️ Editar</a>
+            
+            <!-- ELIMINAR -->
+            <form action="{{ url_for('eliminar_inmueble', id=i.id) }}" method="POST" style="display:inline;">
+                <button type="submit">🗑️ Eliminar</button>
             </form>
         </td>
     </tr>
