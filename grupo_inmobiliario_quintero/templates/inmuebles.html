@@ -18,12 +18,13 @@
 
 <section class="listado">
     {% if inmuebles %}
-        {% for i in inmuebles %}
-            <div class="card">
-                <h3>{{ i.tipo }} en {{ i.municipio }}</h3>
-                <p>Habitaciones: {{ i.habitaciones }}</p>
-                <p>Valor: ${{ "{:,}".format(i.valor) }}</p>
-            </div>
+        {% for inmueble in inmuebles %}
+        <div class="inmueble">
+            <img src="{{ inmueble.imagen_url }}" alt="Imagen del inmueble" class="imagen-inmueble">
+            <h3>{{ inmueble.tipo }} en {{ inmueble.municipio }}</h3>
+            <p>Habitaciones: {{ inmueble.habitaciones }}</p>
+            <p>Valor: ${{ inmueble.valor }}</p>
+        </div>
         {% endfor %}
     {% else %}
         <p>No se encontraron inmuebles con los criterios seleccionados.</p>

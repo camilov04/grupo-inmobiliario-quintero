@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Panel de Administración</h2>
+
+<form method="POST">
+    <label>Tipo:</label>
+    <select name="tipo" required>
+        <option value="Casa">Casa</option>
+        <option value="Apartamento">Apartamento</option>
+    </select><br>
+
+    <label>Municipio:</label>
+    <input type="text" name="municipio" required><br>
+
+    <label>Habitaciones:</label>
+    <input type="number" name="habitaciones" min="1" required><br>
+
+    <label>Valor:</label>
+    <input type="number" name="valor" min="0" required><br>
+
+    <label>URL de la imagen:</label>
+    <input type="text" name="imagen_url" placeholder="https://..." required><br>
+
+    <button type="submit">Agregar inmueble</button>
+</form>
+
+<hr>
+
+<h3>Lista actual de inmuebles</h3>
+<ul>
+    {% for inmueble in inmuebles %}
+        <li>
+            <strong>{{ inmueble.tipo }}</strong> en {{ inmueble.municipio }} - ${{ inmueble.valor }}
+            <br>
+            <img src="{{ inmueble.imagen_url }}" alt="Imagen" width="150">
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
