@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 
 app = Flask(__name__)
+
+app.secret_key = "clave_super_secreta_cambiar_esto"
 
 INMUEBLES = [
         {
@@ -57,36 +59,25 @@ def mostrar_inmuebles():
 
     return render_template("inmuebles.html", inmuebles=resultados)
 
-@app.route("/admin", methods=["GET", "POST"])
+@app.route("/admin")
 def admin():
-    if request.method == "POST":
-        nuevo_inmueble = {
-            "tipo": request.form["tipo"],
-            "municipio": request.form["municipio"],
-            "habitaciones": int(request.form["habitaciones"]),
-            "valor": int(request.form["valor"]),
-            "imagen_url": request.form["imagen_url"]
-        }
-        INMUEBLES.append(nuevo_inmueble)  # ← debe estar dentro del if
-        return redirect(url_for("admin"))
+    if "usuario" not in session:
+        flash("Por favor inicia sesión para continuar.", "warning")
+        return redirect(url_for("login"))
 
     return render_template("admin.html", inmuebles=INMUEBLES)
 
-@app.route("/editar/<int:id>", methods=["GET", "POST"])
-def editar(id):
-    inmueble = next((i for i in INMUEBLES if i["id"] == id), None)
-    if not inmueble:
-        return "Inmueble no encontrado", 404
-
-    if request.method == "POST":
-        inmueble["tipo"] = request.form["tipo"]
-        inmueble["municipio"] = request.form["municipio"]
-        inmueble["habitaciones"] = int(request.form["habitaciones"])
-        inmueble["valor"] = int(request.form["valor"])
-        inmueble["imagen_url"] = request.form["imagen_url"]
-        return redirect(url_for("admin"))
-
-    return render_template("editar.html", inmueble=inmueble)
+@app.route('/agregar', methods=['POST'])
+def agregar():
+    nuevo = {
+        "id": len(INMUEBLES),  # 👈 genera id automáticamente
+        "titulo": request.form["titulo"],
+        "descripcion": request.form["descripcion"],
+        "precio": request.form["precio"],
+        "imagen": request.form["imagen"]
+    }
+    INMUEBLES.append(nuevo)
+    return redirect(url_for('admin'))
 
 @app.route("/editar/<int:id>", methods=["GET", "POST"])
 def editar_inmueble(id):
@@ -110,6 +101,28 @@ def editar_inmueble(id):
 def eliminar(id):
     del INMUEBLES[id]
     return redirect(url_for('admin'))
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        usuario = request.form["usuario"]
+        contrasena = request.form["contrasena"]
+
+        # 🔒 Usuario y contraseña fijos por ahora
+        if usuario == "admin" and contrasena == "1234":
+            session["usuario"] = usuario
+            flash("Inicio de sesión exitoso.", "success")
+            return redirect(url_for("admin"))
+        else:
+            flash("Usuario o contraseña incorrectos.", "danger")
+
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.pop("usuario", None)
+    flash("Sesión cerrada correctamente.", "info")
+    return redirect(url_for("login"))
 
 
 if __name__ == "__main__":

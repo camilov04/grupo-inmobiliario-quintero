@@ -4,11 +4,15 @@
 <section class="filtros">
     <form method="get">
         <input type="text" name="municipio" placeholder="Municipio">
-        <select name="tipo">
-            <option value="">Tipo</option>
-            <option value="Casa">Casa</option>
-            <option value="Apartamento">Apartamento</option>
-        </select>
+        <label for="tipo" name="Tipo" placeholder="Tipo"></label>
+            <select name="tipo" id="tipo" required>
+                <option value="">Seleccione tipo de inmueble</option>
+                <option value="Apartamento" {% if inmueble and inmueble.tipo == "Apartamento" %}selected{% endif %}>Apartamento</option>
+                <option value="Casa" {% if inmueble and inmueble.tipo == "Casa" %}selected{% endif %}>Casa</option>
+                <option value="Local" {% if inmueble and inmueble.tipo == "Local" %}selected{% endif %}>Local</option>
+                <option value="Lote" {% if inmueble and inmueble.tipo == "Lote" %}selected{% endif %}>Lote</option>
+                <option value="Oficina" {% if inmueble and inmueble.tipo == "Oficina" %}selected{% endif %}>Oficina</option>
+            </select>
         <input type="number" name="habitaciones" placeholder="Habitaciones">
         <input type="number" name="valor_min" placeholder="Valor mínimo">
         <input type="number" name="valor_max" placeholder="Valor máximo">
