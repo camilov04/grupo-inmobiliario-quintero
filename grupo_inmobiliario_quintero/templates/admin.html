@@ -5,11 +5,17 @@
 <a href="{{ url_for('logout') }}" class="btn-delete" style="float:right;">Cerrar sesión</a>
 
 <!-- FORMULARIO AGREGAR INMUEBLE -->
-<h3>Agregar nuevo inmueble</h3>
+<h2>Agregar inmueble</h2>
 <form method="POST" action="{{ url_for('agregar_inmueble') }}">
-    <label for="tipo">Tipo de inmueble:</label>
-    <select name="tipo" id="tipo" required>
-        <option value=""> </option>
+    <label>Título:</label>
+    <input type="text" name="titulo" required><br>
+
+    <label>Descripción:</label>
+    <textarea name="descripcion" required></textarea><br>
+
+    <label>Tipo de inmueble:</label>
+    <select name="tipo" required>
+        <option value="">Seleccionar</option>
         <option value="Apartamento">Apartamento</option>
         <option value="Casa">Casa</option>
         <option value="Local">Local</option>
@@ -21,15 +27,15 @@
     <input type="text" name="municipio" required><br>
 
     <label>Habitaciones:</label>
-    <input type="number" name="habitaciones" min="1" required><br>
+    <input type="number" name="habitaciones" required><br>
 
-    <label>Valor:</label>
-    <input type="number" name="valor" min="0" required><br>
+    <label>Precio:</label>
+    <input type="number" name="precio" required><br>
 
-    <label>URL de la imagen:</label>
-    <input type="text" name="imagen" placeholder="https://..." required><br>
+    <label>Imagen URL:</label>
+    <input type="text" name="imagen_url"><br>
 
-    <button type="submit">Agregar inmueble</button>
+    <button type="submit">Agregar</button>
 </form>
 
 <hr>
@@ -39,25 +45,27 @@
 <table border="1">
     <tr>
         <th>ID</th>
+        <th>Título</th>
+        <th>Descripción</th>
         <th>Tipo</th>
         <th>Municipio</th>
         <th>Habitaciones</th>
-        <th>Valor</th>
+        <th>Precio</th>
         <th>Imagen</th>
         <th>Acciones</th>
     </tr>
     {% for i in inmuebles %}
     <tr>
         <td>{{ i.id }}</td>
+        <td>{{ i.titulo }}</td>
+        <td>{{ i.descripcion }}</td>
         <td>{{ i.tipo }}</td>
         <td>{{ i.municipio }}</td>
         <td>{{ i.habitaciones }}</td>
-        <td>${{ i.valor }}</td>
+        <td>${{ i.precio }}</td>
         <td>
-            {% if i.imagen %}
-                <img src="{{ i.imagen }}" width="100">
-            {% else %}
-                No hay imagen
+            {% if i.imagen_url %}
+                <img src="{{ i.imagen_url }}" width="100">
             {% endif %}
         </td>
         <td>

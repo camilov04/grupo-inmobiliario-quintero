@@ -14,17 +14,18 @@ db = SQLAlchemy(app)
 # ------------------ MODELO ------------------
 class Inmueble(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    titulo = db.Column(db.String(100), nullable=False)
+    descripcion = db.Column(db.String(200), nullable=False)
     tipo = db.Column(db.String(50), nullable=False)
     municipio = db.Column(db.String(100), nullable=False)
     habitaciones = db.Column(db.Integer, nullable=False)
-    valor = db.Column(db.Integer, nullable=False)
-    imagen = db.Column(db.String(200), nullable=True)
+    precio = db.Column(db.Integer, nullable=False)
+    imagen_url = db.Column(db.String(200), nullable=True)
 
     def __repr__(self):
         return f"<Inmueble {self.titulo}>"
 
 # ------------------ RUTAS PÚBLICAS ------------------
-
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -35,7 +36,6 @@ def mostrar_inmuebles():
     return render_template("inmuebles.html", inmuebles=inmuebles)
 
 # ------------------ LOGIN ------------------
-
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -50,15 +50,12 @@ def login():
     if request.method == "POST":
         usuario = request.form.get("usuario")
         contrasena = request.form.get("contrasena")
-
-        # Usuario y contraseña fijos (puedes cambiarlos)
         if usuario == "admin" and contrasena == "1234":
             session["usuario"] = usuario
             flash("Inicio de sesión exitoso.", "success")
             return redirect(url_for("panel_admin"))
         else:
             flash("Usuario o contraseña incorrectos.", "error")
-
     return render_template("login.html")
 
 @app.route("/logout")
@@ -72,50 +69,39 @@ def logout():
 @login_required
 def panel_admin():
     inmuebles = Inmueble.query.all()
-    if "usuario" not in session:
-        flash("Debes iniciar sesión para acceder al panel.", "error")
-        return redirect(url_for("login"))
-
-    inmuebles = Inmueble.query.all()
     return render_template("admin.html", inmuebles=inmuebles)
 
-# ------------------ AGREGAR ------------------
-
-@app.route("/admin/agregar", methods=["GET", "POST"])
+# ------------------ AGREGAR INMUEBLE ------------------
+@app.route("/agregar_inmueble", methods=["POST"])
 @login_required
 def agregar_inmueble():
-    if request.method == "POST":
-        nuevo = Inmueble(
-            tipo=request.form["tipo"],
-            municipio=request.form["municipio"],
-            habitaciones=int(request.form["habitaciones"]),
-            valor=int(request.form["valor"]),
-            imagen=request.form["imagen"]
-        )
-        db.session.add(nuevo)
-        db.session.commit()
-        flash("Inmueble agregado correctamente.", "success")
-        return redirect(url_for("panel_admin"))
+    nuevo = Inmueble(
+        titulo=request.form.get("titulo", ""),
+        descripcion=request.form.get("descripcion", ""),
+        tipo=request.form.get("tipo", ""),
+        municipio=request.form.get("municipio", ""),
+        habitaciones=int(request.form.get("habitaciones", 0)),
+        precio=int(request.form.get("precio", 0)),
+        imagen_url=request.form.get("imagen_url", "")
+    )
+    db.session.add(nuevo)
+    db.session.commit()
+    flash("Inmueble agregado correctamente.", "success")
+    return redirect(url_for("panel_admin"))
 
-    return render_template("agregar.html")
-
-# ------------------ EDITAR ------------------
-
-@app.route("/admin/editar/<int:id>", methods=["GET", "POST"])
+# ------------------ EDITAR INMUEBLE ------------------
+@app.route("/editar_inmueble/<int:id>", methods=["GET", "POST"])
 @login_required
 def editar_inmueble(id):
-    if "usuario" not in session:
-        flash("Debes iniciar sesión para acceder al panel.", "error")
-        return redirect(url_for("login"))
-
     inmueble = Inmueble.query.get_or_404(id)
-
     if request.method == "POST":
-        inmueble.titulo = request.form["titulo"]
-        inmueble.descripcion = request.form["descripcion"]
-        inmueble.precio = request.form["precio"]
-        inmueble.tipo = request.form["tipo"]
-        inmueble.imagen = request.form["imagen"]
+        inmueble.titulo = request.form.get("titulo", inmueble.titulo)
+        inmueble.descripcion = request.form.get("descripcion", inmueble.descripcion)
+        inmueble.tipo = request.form.get("tipo", inmueble.tipo)
+        inmueble.municipio = request.form.get("municipio", inmueble.municipio)
+        inmueble.habitaciones = int(request.form.get("habitaciones", inmueble.habitaciones))
+        inmueble.precio = int(request.form.get("precio", inmueble.precio))
+        inmueble.imagen_url = request.form.get("imagen_url", inmueble.imagen_url)
 
         db.session.commit()
         flash("Inmueble actualizado correctamente.", "success")
@@ -123,15 +109,10 @@ def editar_inmueble(id):
 
     return render_template("editar.html", inmueble=inmueble)
 
-# ------------------ ELIMINAR ------------------
-
+# ------------------ ELIMINAR INMUEBLE ------------------
 @app.route("/admin/eliminar/<int:id>", methods=["POST"])
 @login_required
 def eliminar_inmueble(id):
-    if "usuario" not in session:
-        flash("Debes iniciar sesión para acceder al panel.", "error")
-        return redirect(url_for("login"))
-
     inmueble = Inmueble.query.get_or_404(id)
     db.session.delete(inmueble)
     db.session.commit()
@@ -139,8 +120,7 @@ def eliminar_inmueble(id):
     return redirect(url_for("panel_admin"))
 
 # ------------------ MAIN ------------------
-
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()  # crea las tablas si no existen
+        db.create_all()  # crea las tablas nuevas
     app.run(debug=True)

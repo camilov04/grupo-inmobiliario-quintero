@@ -5,14 +5,14 @@
     <form method="get">
         <input type="text" name="municipio" placeholder="Municipio">
         <label for="tipo" name="Tipo" placeholder="Tipo"></label>
-            <select name="tipo" id="tipo" required>
-                <option value="">Seleccione tipo de inmueble</option>
-                <option value="Apartamento" {% if inmueble and inmueble.tipo == "Apartamento" %}selected{% endif %}>Apartamento</option>
-                <option value="Casa" {% if inmueble and inmueble.tipo == "Casa" %}selected{% endif %}>Casa</option>
-                <option value="Local" {% if inmueble and inmueble.tipo == "Local" %}selected{% endif %}>Local</option>
-                <option value="Lote" {% if inmueble and inmueble.tipo == "Lote" %}selected{% endif %}>Lote</option>
-                <option value="Oficina" {% if inmueble and inmueble.tipo == "Oficina" %}selected{% endif %}>Oficina</option>
-            </select>
+        <select name="tipo" id="tipo" required>
+            <option value="">Seleccione tipo de inmueble</option>
+            <option value="Apartamento" {% if inmueble and inmueble.tipo == "Apartamento" %}selected{% endif %}>Apartamento</option>
+            <option value="Casa" {% if inmueble and inmueble.tipo == "Casa" %}selected{% endif %}>Casa</option>
+            <option value="Local" {% if inmueble and inmueble.tipo == "Local" %}selected{% endif %}>Local</option>
+            <option value="Lote" {% if inmueble and inmueble.tipo == "Lote" %}selected{% endif %}>Lote</option>
+            <option value="Oficina" {% if inmueble and inmueble.tipo == "Oficina" %}selected{% endif %}>Oficina</option>
+        </select>
         <input type="number" name="habitaciones" placeholder="Habitaciones">
         <input type="number" name="valor_min" placeholder="Valor mínimo">
         <input type="number" name="valor_max" placeholder="Valor máximo">
@@ -25,9 +25,11 @@
         {% for inmueble in inmuebles %}
         <div class="inmueble">
             <img src="{{ inmueble.imagen_url }}" alt="Imagen del inmueble" class="imagen-inmueble">
-            <h3>{{ inmueble.tipo }} en {{ inmueble.municipio }}</h3>
+            <h3>{{ inmueble.titulo }}</h3>
+            <p>{{ inmueble.descripcion }}</p>
+            <h4>{{ inmueble.tipo }} en {{ inmueble.municipio }}</h4>
             <p>Habitaciones: {{ inmueble.habitaciones }}</p>
-            <p>Valor: ${{ inmueble.valor }}</p>
+            <p>Valor: ${{ inmueble.precio }}</p>
         </div>
         {% endfor %}
     {% else %}
