@@ -5,7 +5,7 @@
     <form method="get">
         <input type="text" name="municipio" placeholder="Municipio">
         <label for="tipo" name="Tipo" placeholder="Tipo"></label>
-        <select name="tipo" id="tipo" required>
+        <select name="tipo" id="tipo">
             <option value="">Seleccione tipo de inmueble</option>
             <option value="Apartamento" {% if inmueble and inmueble.tipo == "Apartamento" %}selected{% endif %}>Apartamento</option>
             <option value="Casa" {% if inmueble and inmueble.tipo == "Casa" %}selected{% endif %}>Casa</option>
@@ -27,7 +27,7 @@
             <img src="{{ inmueble.imagen_url }}" alt="Imagen del inmueble" class="imagen-inmueble">
             <h3>{{ inmueble.titulo }}</h3>
             <p>{{ inmueble.descripcion }}</p>
-            <h4>{{ inmueble.tipo }} en {{ inmueble.municipio }}</h4>
+            <p>{{ inmueble.tipo }} en {{ inmueble.municipio }}</p>
             <p>Habitaciones: {{ inmueble.habitaciones }}</p>
             <p>Valor: ${{ inmueble.precio }}</p>
         </div>

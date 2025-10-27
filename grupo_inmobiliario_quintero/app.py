@@ -32,7 +32,26 @@ def home():
 
 @app.route("/inmuebles")
 def mostrar_inmuebles():
-    inmuebles = Inmueble.query.all()
+    query = Inmueble.query
+
+    municipio = request.args.get("municipio")
+    tipo = request.args.get("tipo")
+    habitaciones = request.args.get("habitaciones")
+    valor_min = request.args.get("valor_min")
+    valor_max = request.args.get("valor_max")
+
+    if municipio:
+        query = query.filter(Inmueble.municipio.ilike(f"%{municipio}%"))
+    if tipo:
+        query = query.filter_by(tipo=tipo)
+    if habitaciones:
+        query = query.filter(Inmueble.habitaciones >= int(habitaciones))
+    if valor_min:
+        query = query.filter(Inmueble.precio >= int(valor_min))
+    if valor_max:
+        query = query.filter(Inmueble.precio <= int(valor_max))
+
+    inmuebles = query.all()
     return render_template("inmuebles.html", inmuebles=inmuebles)
 
 # ------------------ LOGIN ------------------
