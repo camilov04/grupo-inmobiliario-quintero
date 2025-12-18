@@ -18,7 +18,6 @@ header {
 header h1 {
     margin: 0;
     font-size: 1.8rem;
-    letter-spacing: 1px;
 }
 
 nav {
@@ -33,11 +32,6 @@ nav a {
     color: white;
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.2s;
-}
-
-nav a:hover {
-    color: #ffd700;
 }
 
 /* ====== CONTENEDORES ====== */
@@ -50,28 +44,6 @@ nav a:hover {
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-/* ====== TABLAS (ADMIN) ====== */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-table th, table td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-}
-
-table th {
-    background-color: #0055aa;
-    color: white;
-}
-
-table tr:hover {
-    background-color: #f1f1f1;
-}
-
 /* ====== FORMULARIOS ====== */
 form {
     display: flex;
@@ -79,147 +51,65 @@ form {
     gap: 12px;
 }
 
-label {
-    font-weight: 600;
-    color: #222;
-}
-
-input[type="text"],
-input[type="number"],
-input[type="url"],
-select {
+input, select {
     padding: 10px;
-    border: 1px solid #ccc;
     border-radius: 6px;
-    width: 100%;
-    font-size: 0.95rem;
-}
-
-input:focus, select:focus {
-    outline: none;
-    border-color: #0055aa;
-    box-shadow: 0 0 5px rgba(0,85,170,0.3);
+    border: 1px solid #ccc;
 }
 
 /* ====== BOTONES ====== */
-button, input[type="submit"] {
+button {
     background-color: #0055aa;
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 10px;
     border-radius: 6px;
-    font-size: 0.95rem;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-button:hover, input[type="submit"]:hover {
-    background-color: #003f7d;
+/* ====== Quitar estilo de link a TODA la card ====== */
+.inmueble-link {
+    text-decoration: none !important;
+    color: inherit !important;
+    display: block;
 }
 
-.btn-delete {
-    background-color: #cc3333;
+.inmueble-link h3,
+.inmueble-link p {
+    color: #333 !important;
+    text-decoration: none !important;
 }
 
-.btn-delete:hover {
-    background-color: #a30000;
-}
-
-/* ====== IMÁGENES ====== */
-.inmueble-img {
-    width: 100%;
-    max-width: 280px;
-    border-radius: 10px;
-    object-fit: cover;
+/* ====== Hover tipo card ====== */
+.inmueble-link:hover {
+    transform: translateY(-3px);
 }
 
 /* ====== RESPONSIVE ====== */
 @media (max-width: 768px) {
     .container {
         width: 90%;
-        padding: 20px;
-    }
-
-    table th, table td {
-        padding: 8px;
-        font-size: 0.9rem;
     }
 
     nav {
         flex-wrap: wrap;
         gap: 10px;
     }
-
-/* ======== LOGIN PAGE (Forzado al centro) ======== */
-body.login-page {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    background: linear-gradient(135deg, #004080, #0077cc) !important;
-    overflow: hidden !important;
 }
 
-/* Cuadro flotante */
+/* ======== LOGIN PAGE ======== */
+body.login-page {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #004080, #0077cc);
+}
+
 .login-container {
     background: #fff;
     padding: 2rem;
     border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
     width: 350px;
-    text-align: center;
-    position: relative;
-    z-index: 10;
-}
-
-/* Inputs y botones */
-.login-container label {
-    display: block;
-    text-align: left;
-    margin-top: 10px;
-    color: #333;
-    font-weight: 500;
-}
-
-.login-container input[type="text"],
-.login-container input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    outline: none;
-    font-size: 15px;
-}
-
-.login-container input[type="submit"] {
-    width: 100%;
-    margin-top: 18px;
-    background: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.2s;
-    font-size: 16px;
-}
-
-.login-container input[type="submit"]:hover {
-    background: #0056b3;
-}
-
-/* Mensajes */
-.flash-message {
-    margin-top: 12px;
-    font-size: 14px;
-}
-
-.flash-message.error {
-    color: red;
-}
-
 }

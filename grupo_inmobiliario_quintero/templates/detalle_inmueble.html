@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="detalle-inmueble">
+    <img src="{{ inmueble.imagen_url }}" alt="Imagen inmueble" class="detalle-imagen">
+
+    <h1>{{ inmueble.titulo }}</h1>
+    <p><strong>Tipo:</strong> {{ inmueble.tipo }}</p>
+    <p><strong>Municipio:</strong> {{ inmueble.municipio }}</p>
+    <p><strong>Habitaciones:</strong> {{ inmueble.habitaciones }}</p>
+    <p><strong>Precio:</strong> ${{ inmueble.precio }}</p>
+
+    <hr>
+
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </p>
+
+    <a href="{{ url_for('mostrar_inmuebles') }}">← Volver al listado</a>
+</section>
+
+<style>
+.detalle-inmueble {
+    max-width: 800px;
+    margin: auto;
+}
+
+.detalle-imagen {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+</style>
+{% endblock %}

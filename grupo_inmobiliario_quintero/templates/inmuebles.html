@@ -4,41 +4,50 @@
 
 <style>
 .listado {
- display:grid;
- grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
- gap:20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
 }
-.inmueble{
- border:1px solid #ddd;
- padding:15px;
- border-radius:10px;
- background:white;
- display:flex;
- flex-direction:column;
+
+.inmueble {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 12px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s ease;
 }
-.imagen-inmueble{
- width:100%;
- height:200px;
- object-fit:cover;
- border-radius:10px;
+
+.inmueble:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.imagen-inmueble {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
 }
 </style>
 
 <section class="filtros">
     <form method="get">
         <input type="text" name="municipio" placeholder="Municipio">
-        <label for="tipo" name="Tipo" placeholder="Tipo"></label>
+
         <select name="tipo" id="tipo">
             <option value="">Seleccione tipo de inmueble</option>
-            <option value="Apartamento" {% if inmueble and inmueble.tipo == "Apartamento" %}selected{% endif %}>Apartamento</option>
-            <option value="Casa" {% if inmueble and inmueble.tipo == "Casa" %}selected{% endif %}>Casa</option>
-            <option value="Local" {% if inmueble and inmueble.tipo == "Local" %}selected{% endif %}>Local</option>
-            <option value="Lote" {% if inmueble and inmueble.tipo == "Lote" %}selected{% endif %}>Lote</option>
-            <option value="Oficina" {% if inmueble and inmueble.tipo == "Oficina" %}selected{% endif %}>Oficina</option>
+            <option value="Apartamento">Apartamento</option>
+            <option value="Casa">Casa</option>
+            <option value="Local">Local</option>
+            <option value="Lote">Lote</option>
+            <option value="Oficina">Oficina</option>
         </select>
+
         <input type="number" name="habitaciones" placeholder="Habitaciones">
         <input type="number" name="valor_min" placeholder="Valor mínimo">
         <input type="number" name="valor_max" placeholder="Valor máximo">
+
         <button type="submit">Filtrar</button>
     </form>
 </section>
@@ -46,17 +55,21 @@
 <section class="listado">
     {% if inmuebles %}
         {% for inmueble in inmuebles %}
-        <div class="inmueble">
-            <img src="{{ inmueble.imagen_url }}" alt="Imagen del inmueble" class="imagen-inmueble">
-            <h3>{{ inmueble.titulo }}</h3>
-            <p>{{ inmueble.descripcion }}</p>
-            <p>{{ inmueble.tipo }} en {{ inmueble.municipio }}</p>
-            <p>Habitaciones: {{ inmueble.habitaciones }}</p>
-            <p>Valor: ${{ inmueble.precio }}</p>
-        </div>
+            <a href="{{ url_for('detalle_inmueble', inmueble_id=inmueble.id) }}" class="inmueble-link">
+                <div class="inmueble">
+                    <img src="{{ inmueble.imagen_url }}" alt="Imagen del inmueble" class="imagen-inmueble">
+
+                    <h3>{{ inmueble.titulo }}</h3>
+                    <p>{{ inmueble.descripcion }}</p>
+                    <p>{{ inmueble.tipo }} en {{ inmueble.municipio }}</p>
+                    <p>Habitaciones: {{ inmueble.habitaciones }}</p>
+                    <p><strong>Valor:</strong> ${{ inmueble.precio }}</p>
+                </div>
+            </a>
         {% endfor %}
     {% else %}
         <p>No se encontraron inmuebles con los criterios seleccionados.</p>
     {% endif %}
 </section>
+
 {% endblock %}

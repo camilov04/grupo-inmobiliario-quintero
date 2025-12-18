@@ -137,6 +137,11 @@ def eliminar_inmueble(id):
     db.session.commit()
     flash("Inmueble eliminado correctamente.", "info")
     return redirect(url_for("panel_admin"))
+# --------------- info inmuebles ----------
+@app.route("/inmueble/<int:inmueble_id>")
+def detalle_inmueble(inmueble_id):
+    inmueble = Inmueble.query.get_or_404(inmueble_id)
+    return render_template("detalle_inmueble.html", inmueble=inmueble)
 
 # ------------------ MAIN ------------------
 if __name__ == "__main__":
