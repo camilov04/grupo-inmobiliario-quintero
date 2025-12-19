@@ -7,11 +7,16 @@
 <!-- FORMULARIO AGREGAR INMUEBLE -->
 <h2>Agregar inmueble</h2>
 <form method="POST" action="{{ url_for('agregar_inmueble') }}">
-    <label>Título:</label>
-    <input type="text" name="titulo" required><br>
 
-    <label>Descripción:</label>
-    <textarea name="descripcion" required></textarea><br>
+    <label>Título:</label>
+    <input type="text" name="titulo" required>
+
+    <label>Descripción corta:</label>
+    <textarea name="descripcion" required></textarea>
+
+    <label>Información detallada:</label>
+    <textarea name="descripcion_larga" rows="6"
+        placeholder="Información ampliada del inmueble (servicios, zonas comunes, detalles, etc.)"></textarea>
 
     <label>Tipo de inmueble:</label>
     <select name="tipo" required>
@@ -21,19 +26,19 @@
         <option value="Local">Local</option>
         <option value="Lote">Lote</option>
         <option value="Oficina">Oficina</option>
-    </select><br>
+    </select>
 
     <label>Municipio:</label>
-    <input type="text" name="municipio" required><br>
+    <input type="text" name="municipio" required>
 
     <label>Habitaciones:</label>
-    <input type="number" name="habitaciones" required><br>
+    <input type="number" name="habitaciones" required>
 
     <label>Precio:</label>
-    <input type="number" name="precio" required><br>
+    <input type="number" name="precio" required>
 
     <label>Imagen URL:</label>
-    <input type="text" name="imagen_url"><br>
+    <input type="text" name="imagen_url">
 
     <button type="submit">Agregar</button>
 </form>
@@ -42,7 +47,7 @@
 
 <!-- TABLA DE INMUEBLES -->
 <h3>Lista de inmuebles</h3>
-<table border="1">
+<table>
     <tr>
         <th>ID</th>
         <th>Título</th>
@@ -54,6 +59,7 @@
         <th>Imagen</th>
         <th>Acciones</th>
     </tr>
+
     {% for i in inmuebles %}
     <tr>
         <td>{{ i.id }}</td>
@@ -69,11 +75,10 @@
             {% endif %}
         </td>
         <td>
-            <!-- EDITAR -->
             <a href="{{ url_for('editar_inmueble', id=i.id) }}">✏️ Editar</a>
-            
-            <!-- ELIMINAR -->
-            <form action="{{ url_for('eliminar_inmueble', id=i.id) }}" method="POST" style="display:inline;">
+
+            <form action="{{ url_for('eliminar_inmueble', id=i.id) }}"
+                  method="POST" style="display:inline;">
                 <button type="submit">🗑️ Eliminar</button>
             </form>
         </td>

@@ -1,36 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="detalle-inmueble">
-    <img src="{{ inmueble.imagen_url }}" alt="Imagen inmueble" class="detalle-imagen">
+<div class="container">
 
-    <h1>{{ inmueble.titulo }}</h1>
-    <p><strong>Tipo:</strong> {{ inmueble.tipo }}</p>
-    <p><strong>Municipio:</strong> {{ inmueble.municipio }}</p>
-    <p><strong>Habitaciones:</strong> {{ inmueble.habitaciones }}</p>
-    <p><strong>Precio:</strong> ${{ inmueble.precio }}</p>
+    <a href="{{ url_for('mostrar_inmuebles') }}" style="text-decoration:none;">← Volver al listado</a>
 
-    <hr>
+    <div class="detalle-inmueble" style="margin-top:20px;">
 
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    </p>
+        {% if inmueble.imagen_url %}
+            <img src="{{ inmueble.imagen_url }}"
+                 alt="Imagen del inmueble"
+                 style="width:100%; max-height:420px; object-fit:cover; border-radius:12px;">
+        {% endif %}
 
-    <a href="{{ url_for('mostrar_inmuebles') }}">← Volver al listado</a>
-</section>
+        <h2 style="margin-top:20px;">{{ inmueble.titulo }}</h2>
 
-<style>
-.detalle-inmueble {
-    max-width: 800px;
-    margin: auto;
-}
+        <p><strong>{{ inmueble.tipo }}</strong> en <strong>{{ inmueble.municipio }}</strong></p>
 
-.detalle-imagen {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    border-radius: 12px;
-}
-</style>
+        <p><strong>Habitaciones:</strong> {{ inmueble.habitaciones }}</p>
+
+        <p><strong>Valor:</strong> ${{ inmueble.precio }}</p>
+
+        <hr>
+
+        <h3>Descripción</h3>
+        <p>{{ inmueble.descripcion }}</p>
+
+        <hr>
+
+        <h3>Información detallada</h3>
+
+            {% if inmueble.descripcion_larga and inmueble.descripcion_larga.strip() %}
+                <p>{{ inmueble.descripcion_larga }}</p>
+            {% else %}
+                <p><em>No hay información adicional para este inmueble.</em></p>
+            {% endif %}
+
+    </div>
+
+</div>
 {% endblock %}

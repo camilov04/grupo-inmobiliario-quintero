@@ -15,12 +15,13 @@ db = SQLAlchemy(app)
 class Inmueble(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     titulo = db.Column(db.String(100), nullable=False)
-    descripcion = db.Column(db.String(200), nullable=False)
+    descripcion = db.Column(db.String(255), nullable=False)
+    descripcion_larga = db.Column(db.Text)  # NUEVO CAMPO
     tipo = db.Column(db.String(50), nullable=False)
     municipio = db.Column(db.String(100), nullable=False)
     habitaciones = db.Column(db.Integer, nullable=False)
-    precio = db.Column(db.Integer, nullable=False)
-    imagen_url = db.Column(db.String(200), nullable=True)
+    precio = db.Column(db.Float, nullable=False)
+    imagen_url = db.Column(db.String(255))
 
     def __repr__(self):
         return f"<Inmueble {self.titulo}>"
@@ -69,12 +70,14 @@ def login():
     if request.method == "POST":
         usuario = request.form.get("usuario")
         contrasena = request.form.get("contrasena")
+
         if usuario == "admin" and contrasena == "1234":
             session["usuario"] = usuario
             flash("Inicio de sesión exitoso.", "success")
             return redirect(url_for("panel_admin"))
         else:
             flash("Usuario o contraseña incorrectos.", "error")
+
     return render_template("login.html")
 
 @app.route("/logout")
@@ -95,14 +98,16 @@ def panel_admin():
 @login_required
 def agregar_inmueble():
     nuevo = Inmueble(
-        titulo=request.form.get("titulo", ""),
-        descripcion=request.form.get("descripcion", ""),
-        tipo=request.form.get("tipo", ""),
-        municipio=request.form.get("municipio", ""),
-        habitaciones=int(request.form.get("habitaciones", 0)),
-        precio=int(request.form.get("precio", 0)),
-        imagen_url=request.form.get("imagen_url", "")
+        titulo=request.form.get("titulo"),
+        descripcion=request.form.get("descripcion"),
+        descripcion_larga=request.form.get("descripcion_larga"),
+        tipo=request.form.get("tipo"),
+        municipio=request.form.get("municipio"),
+        habitaciones=int(request.form.get("habitaciones")),
+        precio=float(request.form.get("precio")),
+        imagen_url=request.form.get("imagen_url")
     )
+
     db.session.add(nuevo)
     db.session.commit()
     flash("Inmueble agregado correctamente.", "success")
@@ -113,14 +118,16 @@ def agregar_inmueble():
 @login_required
 def editar_inmueble(id):
     inmueble = Inmueble.query.get_or_404(id)
+
     if request.method == "POST":
-        inmueble.titulo = request.form.get("titulo", inmueble.titulo)
-        inmueble.descripcion = request.form.get("descripcion", inmueble.descripcion)
-        inmueble.tipo = request.form.get("tipo", inmueble.tipo)
-        inmueble.municipio = request.form.get("municipio", inmueble.municipio)
-        inmueble.habitaciones = int(request.form.get("habitaciones", inmueble.habitaciones))
-        inmueble.precio = int(request.form.get("precio", inmueble.precio))
-        inmueble.imagen_url = request.form.get("imagen_url", inmueble.imagen_url)
+        inmueble.titulo = request.form.get("titulo")
+        inmueble.descripcion = request.form.get("descripcion")
+        inmueble.descripcion_larga = request.form.get("descripcion_larga")
+        inmueble.tipo = request.form.get("tipo")
+        inmueble.municipio = request.form.get("municipio")
+        inmueble.habitaciones = int(request.form.get("habitaciones"))
+        inmueble.precio = float(request.form.get("precio"))
+        inmueble.imagen_url = request.form.get("imagen_url")
 
         db.session.commit()
         flash("Inmueble actualizado correctamente.", "success")
@@ -135,9 +142,10 @@ def eliminar_inmueble(id):
     inmueble = Inmueble.query.get_or_404(id)
     db.session.delete(inmueble)
     db.session.commit()
-    flash("Inmueble eliminado correctamente.", "info")
+    flash("Inmueble eliminado.", "info")
     return redirect(url_for("panel_admin"))
-# --------------- info inmuebles ----------
+
+# ------------------ DETALLE INMUEBLE ------------------
 @app.route("/inmueble/<int:inmueble_id>")
 def detalle_inmueble(inmueble_id):
     inmueble = Inmueble.query.get_or_404(inmueble_id)
@@ -146,5 +154,5 @@ def detalle_inmueble(inmueble_id):
 # ------------------ MAIN ------------------
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()  # crea las tablas nuevas
+        db.create_all()
     app.run(debug=True)
