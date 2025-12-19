@@ -113,3 +113,21 @@ body.login-page {
     border-radius: 16px;
     width: 350px;
 }
+
+.whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;  /* Cambiado de left a right */
+    z-index: 1000;
+    text-decoration: none;
+}
+
+.whatsapp-float img {
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+}
+
+.whatsapp-float img:hover {
+    transform: scale(1.1);
+}
