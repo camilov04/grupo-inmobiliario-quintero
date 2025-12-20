@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+<button id="darkModeToggle" class="dark-toggle">
+    🌙
+</button>
+
     <header>
         <h1>Grupo Inmobiliario Quintero</h1>
         <nav>
@@ -29,6 +33,28 @@
         <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp" width="50">
     </a>
 
+<script>
+    const toggle = document.getElementById("darkModeToggle");
+    const body = document.body;
+
+    // Cargar preferencia guardada
+    if (localStorage.getItem("darkMode") === "enabled") {
+        body.classList.add("dark-mode");
+        toggle.textContent = "☀️";
+    }
+
+    toggle.addEventListener("click", () => {
+        body.classList.toggle("dark-mode");
+
+        if (body.classList.contains("dark-mode")) {
+            localStorage.setItem("darkMode", "enabled");
+            toggle.textContent = "☀️";
+        } else {
+            localStorage.setItem("darkMode", "disabled");
+            toggle.textContent = "🌙";
+        }
+    });
+</script>
 
 </body>
 </html>
