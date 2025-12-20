@@ -131,3 +131,36 @@ body.login-page {
 .whatsapp-float img:hover {
     transform: scale(1.1);
 }
+
+/* ===== FORMULARIO ADMIN EN DOS COLUMNAS ===== */
+.admin-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px 25px;
+
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto; /* 🔥 CENTRADO */
+    padding: 10px;
+}
+
+.admin-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-form textarea {
+    min-height: 80px;
+}
+
+/* Campos que ocupan todo el ancho */
+.admin-form .full-width {
+    grid-column: span 2;
+}
+
+/* Responsive: una columna en móvil */
+@media (max-width: 768px) {
+    .admin-form {
+        grid-template-columns: 1fr;
+    }
+}
