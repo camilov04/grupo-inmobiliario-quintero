@@ -6,54 +6,55 @@
     <title>Grupo Inmobiliario Quintero</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-<button id="darkModeToggle" class="dark-toggle">
-    🌙
-</button>
 
-    <header>
-        <h1>Grupo Inmobiliario Quintero</h1>
-        <nav>
-            <a href="{{ url_for('home') }}">Inicio</a>
-            <a href="{{ url_for('mostrar_inmuebles') }}">Inmuebles</a>
-            <a href="https://wa.me/573001234567" target="_blank">Contáctanos</a>
-        </nav>
-    </header>
+<body id="body">
 
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+<!-- Botón flotante modo oscuro -->
+<button id="darkToggle" class="dark-toggle">🌙</button>
 
-    <footer>
-        <p>© 2025 Grupo Inmobiliario Quintero - Todos los derechos reservados</p>
-    </footer>
+<header>
+    <h1>Grupo Inmobiliario Quintero</h1>
+    <nav>
+        <a href="{{ url_for('home') }}">Inicio</a>
+        <a href="{{ url_for('mostrar_inmuebles') }}">Inmuebles</a>
+        <a href="https://wa.me/573132552214" target="_blank">Contáctanos</a>
+    </nav>
+</header>
 
-    <!-- Botón flotante de WhatsApp -->
-    <a href="https://wa.me/573132552214" target="_blank" class="whatsapp-float">
-        <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp" width="50">
-    </a>
+<main class="container">
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <p>© 2025 Grupo Inmobiliario Quintero - Todos los derechos reservados</p>
+</footer>
+
+<!-- Botón flotante WhatsApp -->
+<a href="https://wa.me/573132552214" target="_blank" class="whatsapp-float">
+    <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp" width="50">
+</a>
 
 <script>
-    const toggle = document.getElementById("darkModeToggle");
-    const body = document.body;
+const body = document.getElementById("body");
+const toggle = document.getElementById("darkToggle");
 
-    // Cargar preferencia guardada
-    if (localStorage.getItem("darkMode") === "enabled") {
-        body.classList.add("dark-mode");
+// Cargar preferencia
+if (localStorage.getItem("theme") === "dark") {
+    body.classList.add("dark-mode");
+    toggle.textContent = "☀️";
+}
+
+toggle.addEventListener("click", () => {
+    body.classList.toggle("dark-mode");
+
+    if (body.classList.contains("dark-mode")) {
+        localStorage.setItem("theme", "dark");
         toggle.textContent = "☀️";
+    } else {
+        localStorage.setItem("theme", "light");
+        toggle.textContent = "🌙";
     }
-
-    toggle.addEventListener("click", () => {
-        body.classList.toggle("dark-mode");
-
-        if (body.classList.contains("dark-mode")) {
-            localStorage.setItem("darkMode", "enabled");
-            toggle.textContent = "☀️";
-        } else {
-            localStorage.setItem("darkMode", "disabled");
-            toggle.textContent = "🌙";
-        }
-    });
+});
 </script>
 
 </body>

@@ -1,13 +1,42 @@
-/* ====== ESTILOS GENERALES ====== */
-body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background-color: #f5f6fa;
-    margin: 0;
-    padding: 0;
-    color: #333;
+/* ===========================
+   VARIABLES TEMA
+   =========================== */
+:root {
+    --bg-color: #f5f5f5;
+    --card-bg: #ffffff;
+    --text-color: #222222;
+    --text-muted: #555555;
+    --border-color: #dddddd;
+    --primary: #0d6efd;
+    --primary-hover: #0b5ed7;
 }
 
-/* ====== ENCABEZADO / NAV ====== */
+/* 🌙 Modo oscuro */
+.dark-mode {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #eaeaea;
+    --text-muted: #aaaaaa;
+    --border-color: #333333;
+    --primary: #4dabf7;
+    --primary-hover: #339af0;
+}
+
+/* ===========================
+   ESTILOS GENERALES
+   =========================== */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===========================
+   HEADER / NAV
+   =========================== */
 header {
     background-color: #003366;
     color: white;
@@ -34,114 +63,121 @@ nav a {
     font-weight: 500;
 }
 
-/* ====== CONTENEDORES ====== */
-.container {
+/* ===========================
+   CONTENEDORES / CARDS
+   =========================== */
+.container,
+.admin-container,
+.card,
+.admin-card,
+.inmueble {
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 12px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container,
+.admin-container {
     max-width: 1000px;
     margin: 30px auto;
-    background: white;
     padding: 25px 30px;
-    border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-/* ====== FORMULARIOS ====== */
+/* ===========================
+   LISTADO INMUEBLES
+   =========================== */
+.listado {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.inmueble {
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.inmueble h3,
+.inmueble p,
+.inmueble span,
+.inmueble strong {
+    color: var(--text-color);
+}
+
+.inmueble:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transform: translateY(-3px);
+}
+
+.imagen-inmueble {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* 🔥 Card NO parece link */
+.inmueble-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.inmueble-link * {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+/* ===========================
+   FORMULARIOS
+   =========================== */
 form {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-input, select {
+label {
+    color: var(--text-muted);
+}
+
+input,
+select,
+textarea {
     padding: 10px;
     border-radius: 6px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-color);
+    font-size: 15px;
 }
 
-/* ====== BOTONES ====== */
-button {
-    background-color: #0055aa;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 6px;
-    cursor: pointer;
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-muted);
 }
 
-/* ====== Quitar estilo de link a TODA la card ====== */
-.inmueble-link {
-    text-decoration: none !important;
-    color: inherit !important;
-    display: block;
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--primary);
+    outline: none;
 }
 
-.inmueble-link h3,
-.inmueble-link p {
-    color: #333 !important;
-    text-decoration: none !important;
-}
-
-/* ====== Hover tipo card ====== */
-.inmueble-link:hover {
-    transform: translateY(-3px);
-}
-
-/* ====== RESPONSIVE ====== */
-@media (max-width: 768px) {
-    .container {
-        width: 90%;
-    }
-
-    nav {
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-}
-
-/* ======== LOGIN PAGE ======== */
-body.login-page {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #004080, #0077cc);
-}
-
-.login-container {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 16px;
-    width: 350px;
-}
-
-.whatsapp-float {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;  /* Cambiado de left a right */
-    z-index: 1000;
-    text-decoration: none;
-}
-
-.whatsapp-float img {
-    border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    transition: transform 0.2s;
-}
-
-.whatsapp-float img:hover {
-    transform: scale(1.1);
-}
-
-/* ===== FORMULARIO ADMIN EN DOS COLUMNAS ===== */
+/* ===========================
+   ADMIN FORM GRID
+   =========================== */
 .admin-form {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px 25px;
-
     max-width: 1000px;
-    width: 100%;
-    margin: 0 auto; /* 🔥 CENTRADO */
-    padding: 10px;
+    margin: 0 auto;
 }
 
 .admin-form .form-group {
@@ -153,205 +189,172 @@ body.login-page {
     min-height: 80px;
 }
 
-/* Campos que ocupan todo el ancho */
 .admin-form .full-width {
     grid-column: span 2;
-}
-
-/* Responsive: una columna en móvil */
-@media (max-width: 768px) {
-    .admin-form {
-        grid-template-columns: 1fr;
-    }
 }
 
 /* ===========================
-   ESTILO ADMIN PANEL - TIPO BOOTSTRAP
+   BOTONES
    =========================== */
-
-/* Contenedor general centrado */
-.admin-container {
-    max-width: 1000px;
-    margin: 30px auto;
-    padding: 15px;
-}
-
-/* Card blanca con sombra */
-.admin-card {
-    background: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-}
-
-/* Títulos dentro de admin */
-.admin-card h2 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 24px;
-    font-weight: 600;
-}
-
-/* Grid de formulario */
-.admin-form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px 25px;
-    width: 100%;
-}
-
-/* Campos agrupados */
-.admin-form .form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-/* Inputs, selects y textarea más cómodos */
-.admin-form input,
-.admin-form textarea,
-.admin-form select {
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 15px;
-    transition: border 0.2s ease;
-}
-
-.admin-form input:focus,
-.admin-form textarea:focus,
-.admin-form select:focus {
-    border-color: #0d6efd;
-    outline: none;
-}
-
-/* Que textbox largo ocupe todo */
-.admin-form .full-width {
-    grid-column: span 2;
-}
-
-/* Botón bonito */
-.admin-form button {
-    background: #0d6efd;
-    color: white;
-    font-size: 16px;
-    padding: 10px 16px;
+button {
+    background-color: var(--primary);
+    color: #ffffff;
     border: none;
+    padding: 10px;
     border-radius: 6px;
     cursor: pointer;
     transition: background 0.2s ease;
 }
 
-.admin-form button:hover {
-    background: #0b5ed7;
-}
-
-/* Responsive: una columna en móviles */
-@media (max-width: 768px) {
-    .admin-form {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* ===========================
-   VARIABLES MODO CLARO / OSCURO
-   =========================== */
-
-:root {
-    --bg-color: #f5f5f5;
-    --card-bg: #ffffff;
-    --text-color: #222;
-    --text-muted: #555;
-    --border-color: #ddd;
-    --primary: #0d6efd;
-    --primary-hover: #0b5ed7;
-}
-
-/* Modo oscuro */
-.dark-mode {
-    --bg-color: #121212;
-    --card-bg: #1e1e1e;
-    --text-color: #eaeaea;
-    --text-muted: #aaaaaa;
-    --border-color: #333;
-    --primary: #4dabf7;
-    --primary-hover: #339af0;
-}
-
-/* ===========================
-   ESTILOS GENERALES
-   =========================== */
-
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Cards / contenedores */
-.admin-card,
-.card,
-.container,
-.box {
-    background: var(--card-bg);
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-}
-
-/* Textos secundarios */
-small,
-.muted,
-label {
-    color: var(--text-muted);
-}
-
-/* Inputs */
-input,
-textarea,
-select {
-    background: var(--card-bg);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-}
-
-input::placeholder,
-textarea::placeholder {
-    color: var(--text-muted);
-}
-
-/* Botones */
-button {
-    background: var(--primary);
-    color: #fff;
-}
-
 button:hover {
-    background: var(--primary-hover);
+    background-color: var(--primary-hover);
 }
 
-/* Links */
-a {
-    color: var(--primary);
+/* ===========================
+   LOGIN
+   =========================== */
+body.login-page {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #004080, #0077cc);
 }
 
-a:hover {
-    opacity: 0.85;
+.login-container {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 16px;
+    width: 350px;
 }
 
-/* Botón flotante modo oscuro */
-.dark-toggle {
+/* ===========================
+   BOTONES FLOTANTES
+   =========================== */
+.whatsapp-float {
     position: fixed;
-    bottom: 90px; /* 👈 lo subimos para no chocar con WhatsApp */
+    bottom: 20px;
     right: 20px;
     z-index: 1000;
+}
 
+.whatsapp-float img {
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.dark-toggle {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    z-index: 1000;
     border: none;
     border-radius: 50%;
     width: 48px;
     height: 48px;
     font-size: 20px;
     cursor: pointer;
-
     background: var(--card-bg);
     color: var(--text-color);
     box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 768px) {
+    .container,
+    .admin-container {
+        width: 90%;
+    }
+
+    nav {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .admin-form {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===========================
+   TABLAS (ADMIN)
+   =========================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+
+th {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode th {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Imágenes dentro de tablas */
+table img {
+    border-radius: 6px;
+}
+
+/* Acciones */
+table a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+table a:hover {
+    text-decoration: underline;
+}
+
+/* Botón eliminar */
+table button {
+    background: #dc3545;
+    border: none;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+table button:hover {
+    background: #bb2d3b;
+}
+
+/* ===========================
+   FIX CARDS EN MODO OSCURO
+   =========================== */
+
+.dark-mode .inmueble {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+/* Fuerza texto visible dentro de cards */
+.dark-mode .inmueble h3,
+.dark-mode .inmueble p,
+.dark-mode .inmueble span,
+.dark-mode .inmueble strong {
+    color: var(--text-color);
+}
+
+/* Evita que parezcan links */
+.dark-mode .inmueble-link,
+.dark-mode .inmueble-link * {
+    color: var(--text-color);
+    text-decoration: none;
 }
