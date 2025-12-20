@@ -1,68 +1,79 @@
 {% extends "base.html" %}
-
 {% block content %}
 
 <div class="admin-container">
-    <h2>Editar inmueble</h2>
+
+    <div class="admin-header">
+        <h2>Editar inmueble</h2>
+        <a href="{{ url_for('panel_admin') }}" class="logout-link">← Volver</a>
+    </div>
 
     <div class="admin-card">
-        <form method="POST" class="admin-form">
+        <h3>Actualizar información</h3>
+
+        <form method="POST"
+              action="{{ url_for('editar_inmueble', id=inmueble.id) }}"
+              class="admin-form"
+              id="editarForm">
 
             <div class="form-group">
-                <label>Título:</label>
+                <label>Título</label>
                 <input type="text" name="titulo" value="{{ inmueble.titulo }}" required>
             </div>
 
             <div class="form-group">
-                <label>Descripción corta:</label>
-                <textarea name="descripcion" required>{{ inmueble.descripcion }}</textarea>
+                <label>Descripción corta</label>
+                <textarea name="descripcion">{{ inmueble.descripcion }}</textarea>
             </div>
 
             <div class="form-group full-width">
-                <label>Información detallada:</label>
-                <textarea
-                    name="descripcion_larga"
-                    rows="6"
-                    placeholder="Información ampliada del inmueble (servicios, zonas comunes, detalles, etc.)"
-                >{{ inmueble.descripcion_larga }}</textarea>
+                <label>Información detallada</label>
+                <textarea name="descripcion_larga">{{ inmueble.descripcion_larga }}</textarea>
             </div>
 
             <div class="form-group">
-                <label>Tipo de inmueble:</label>
+                <label>Tipo</label>
                 <select name="tipo" id="tipo" required>
                     <option value="">Seleccionar</option>
-                    <option value="Apartamento" {% if inmueble.tipo == "Apartamento" %}selected{% endif %}>Apartamento</option>
                     <option value="Casa" {% if inmueble.tipo == "Casa" %}selected{% endif %}>Casa</option>
+                    <option value="Apartamento" {% if inmueble.tipo == "Apartamento" %}selected{% endif %}>Apartamento</option>
+                    <option value="Oficina" {% if inmueble.tipo == "Oficina" %}selected{% endif %}>Oficina</option>
                     <option value="Local" {% if inmueble.tipo == "Local" %}selected{% endif %}>Local</option>
                     <option value="Lote" {% if inmueble.tipo == "Lote" %}selected{% endif %}>Lote</option>
-                    <option value="Oficina" {% if inmueble.tipo == "Oficina" %}selected{% endif %}>Oficina</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label>Municipio:</label>
+                <label>Municipio</label>
                 <input type="text" name="municipio" value="{{ inmueble.municipio }}" required>
             </div>
 
-            <!-- HABITACIONES -->
-            <div class="form-group" id="group-habitaciones">
-                <label>Habitaciones:</label>
+            <!-- CAMPOS DINÁMICOS -->
+            <div class="form-group campo-habitaciones">
+                <label>Habitaciones</label>
                 <input type="number" name="habitaciones" value="{{ inmueble.habitaciones }}">
             </div>
 
-            <!-- BAÑOS -->
-            <div class="form-group" id="group-banos">
-                <label>Baños:</label>
+            <div class="form-group campo-banos">
+                <label>Baños</label>
                 <input type="number" name="banos" value="{{ inmueble.banos }}">
             </div>
 
-            <div class="form-group">
-                <label>Precio:</label>
-                <input type="number" name="precio" value="{{ inmueble.precio }}" required>
+            <div class="form-group campo-parqueadero">
+                <label>Parqueadero</label>
+                <select name="parqueadero">
+                    <option value="0" {% if not inmueble.parqueadero %}selected{% endif %}>No</option>
+                    <option value="1" {% if inmueble.parqueadero %}selected{% endif %}>Sí</option>
+                </select>
             </div>
 
             <div class="form-group">
-                <label>Imagen URL:</label>
+                <label>Precio</label>
+                <input type="number" name="precio" value="{{ inmueble.precio }}" required>
+            </div>
+
+            <div class="form-group full-width">
+                <label>Imagen URL</label>
                 <input type="text" name="imagen_url" value="{{ inmueble.imagen_url }}">
             </div>
 
@@ -72,34 +83,44 @@
 
         </form>
     </div>
+
 </div>
 
-<!-- ==========================
-     JS: lógica por tipo inmueble
-     ========================== -->
+<!-- SCRIPT CAMPOS DINÁMICOS -->
 <script>
-const tipoSelect = document.getElementById("tipo");
-const habitacionesGroup = document.getElementById("group-habitaciones");
-const banosGroup = document.getElementById("group-banos");
+const tipo = document.getElementById("tipo");
+
+const campoHabitaciones = document.querySelector(".campo-habitaciones");
+const campoBanos = document.querySelector(".campo-banos");
+const campoParqueadero = document.querySelector(".campo-parqueadero");
+
+function ocultarTodo() {
+    campoHabitaciones.style.display = "none";
+    campoBanos.style.display = "none";
+    campoParqueadero.style.display = "none";
+}
 
 function actualizarCampos() {
-    const tipo = tipoSelect.value;
+    ocultarTodo();
 
-    habitacionesGroup.style.display = "none";
-    banosGroup.style.display = "none";
-
-    if (tipo === "Casa" || tipo === "Apartamento") {
-        habitacionesGroup.style.display = "flex";
-        banosGroup.style.display = "flex";
+    if (tipo.value === "Casa" || tipo.value === "Apartamento") {
+        campoHabitaciones.style.display = "flex";
+        campoBanos.style.display = "flex";
+        campoParqueadero.style.display = "flex";
     }
 
-    if (tipo === "Oficina" || tipo === "Local") {
-        banosGroup.style.display = "flex";
+    if (tipo.value === "Oficina") {
+        campoBanos.style.display = "flex";
+        campoParqueadero.style.display = "flex";
+    }
+
+    if (tipo.value === "Local") {
+        campoBanos.style.display = "flex";
     }
 }
 
-tipoSelect.addEventListener("change", actualizarCampos);
-actualizarCampos(); // ejecutar al cargar
+tipo.addEventListener("change", actualizarCampos);
+document.addEventListener("DOMContentLoaded", actualizarCampos);
 </script>
 
 {% endblock %}

@@ -2,14 +2,15 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grupo Inmobiliario Quintero</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body id="body">
 
-<!-- Botón flotante modo oscuro -->
+<!-- Botón modo oscuro -->
 <button id="darkToggle" class="dark-toggle">🌙</button>
 
 <header>
@@ -21,40 +22,34 @@
     </nav>
 </header>
 
-<main class="container">
+<!-- ❌ NO container aquí -->
+<main>
     {% block content %}{% endblock %}
 </main>
 
 <footer>
-    <p>© 2025 Grupo Inmobiliario Quintero - Todos los derechos reservados</p>
+    © 2025 Grupo Inmobiliario Quintero - Todos los derechos reservados
 </footer>
 
-<!-- Botón flotante WhatsApp -->
 <a href="https://wa.me/573132552214" target="_blank" class="whatsapp-float">
-    <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp" width="50">
+    <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" width="50">
 </a>
 
 <script>
 const body = document.getElementById("body");
 const toggle = document.getElementById("darkToggle");
 
-// Cargar preferencia
 if (localStorage.getItem("theme") === "dark") {
     body.classList.add("dark-mode");
     toggle.textContent = "☀️";
 }
 
-toggle.addEventListener("click", () => {
+toggle.onclick = () => {
     body.classList.toggle("dark-mode");
-
-    if (body.classList.contains("dark-mode")) {
-        localStorage.setItem("theme", "dark");
-        toggle.textContent = "☀️";
-    } else {
-        localStorage.setItem("theme", "light");
-        toggle.textContent = "🌙";
-    }
-});
+    const dark = body.classList.contains("dark-mode");
+    localStorage.setItem("theme", dark ? "dark" : "light");
+    toggle.textContent = dark ? "☀️" : "🌙";
+};
 </script>
 
 </body>

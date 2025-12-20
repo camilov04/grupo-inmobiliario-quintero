@@ -1,56 +1,51 @@
 {% extends "base.html" %}
-
 {% block content %}
 
-<div class="container">
+<section class="container">
     <h2 class="page-title">Inmuebles disponibles</h2>
 
+    <form class="search-form" method="GET">
+        <input name="municipio" placeholder="Municipio">
+        <select name="tipo">
+            <option value="">Tipo</option>
+            <option>Casa</option>
+            <option>Apartamento</option>
+            <option>Oficina</option>
+            <option>Lote</option>
+        </select>
+        <button>Filtrar</button>
+    </form>
+
     <div class="listado">
-        {% for inmueble in inmuebles %}
-        <a href="{{ url_for('detalle_inmueble', inmueble_id=inmueble.id) }}" class="inmueble-link">
+        {% for i in inmuebles %}
+        <a href="{{ url_for('detalle_inmueble', inmueble_id=i.id) }}" class="inmueble-link">
             <div class="inmueble-card">
-
-                <img
-                    src="{{ inmueble.imagen_url or url_for('static', filename='img/no-image.jpg') }}"
-                    alt="Imagen inmueble"
-                    class="imagen-inmueble"
-                >
-
+                <img class="imagen-inmueble" src="{{ i.imagen_url }}">
                 <div class="card-body">
-                    <h3>{{ inmueble.tipo }} en {{ inmueble.municipio }}</h3>
+                    <h3>{{ i.titulo }}</h3>
+                    <div class="datos-clave">
+    <div class="dato precio">
+        ${{ "{:,.0f}".format(i.precio) }}
+    </div>
 
-                    <p class="precio">
-                        $ {{ "{:,.0f}".format(inmueble.precio) }}
-                    </p>
+    {% if i.habitaciones %}
+    <div class="dato">🛏 {{ i.habitaciones }}</div>
+    {% endif %}
 
-                    <div class="icon-grid">
+    {% if i.banos %}
+    <div class="dato">🚿 {{ i.banos }}</div>
+    {% endif %}
 
-                        {% if inmueble.habitaciones %}
-                        <div>
-                            <span>🛏</span>
-                            <small>{{ inmueble.habitaciones }}</small>
-                        </div>
-                        {% endif %}
+    {% if i.parqueadero %}
+    <div class="dato">🚗 Parqueadero</div>
+    {% endif %}
+</div>
 
-                        {% if inmueble.banos %}
-                        <div>
-                            <span>🚿</span>
-                            <small>{{ inmueble.banos }}</small>
-                        </div>
-                        {% endif %}
-
-                    </div>
-
-
-                    <div class="ubicacion">
-                        📍 {{ inmueble.municipio }}
-                    </div>
                 </div>
-
             </div>
         </a>
         {% endfor %}
     </div>
-</div>
+</section>
 
 {% endblock %}

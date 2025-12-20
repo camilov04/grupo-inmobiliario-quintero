@@ -1,150 +1,177 @@
 {% extends "base.html" %}
-
 {% block content %}
-<h2>Panel de Administración</h2>
-<a href="{{ url_for('logout') }}" class="btn-delete" style="float:right;">Cerrar sesión</a>
 
-<!-- FORMULARIO AGREGAR INMUEBLE -->
 <div class="admin-container">
-    <h2>Agregar inmueble</h2>
 
-  <div class="admin-card">
-      <form method="POST" action="{{ url_for('agregar_inmueble') }}" class="admin-form">
+    <!-- HEADER -->
+    <div class="admin-header">
+        <h2>Panel de Administración</h2>
+        <a href="{{ url_for('logout') }}" class="logout-link">Cerrar sesión</a>
+    </div>
 
-        <div class="form-group">
-            <label>Título:</label>
-            <input type="text" name="titulo" required>
-        </div>
+    <!-- FORMULARIO -->
+    <div class="admin-card">
+        <h3>Agregar inmueble</h3>
 
-        <div class="form-group">
-            <label>Descripción corta:</label>
-            <textarea name="descripcion" required></textarea>
-        </div>
+        <form method="POST"
+              action="{{ url_for('agregar_inmueble') }}"
+              class="admin-form"
+              id="formInmueble">
 
-        <div class="form-group full-width">
-            <label>Información detallada:</label>
-            <textarea 
-                name="descripcion_larga" 
-                rows="6"
-                placeholder="Información ampliada del inmueble (servicios, zonas comunes, detalles, etc.)">
-            </textarea>
-        </div>
+            <div class="form-group">
+                <label>Título</label>
+                <input type="text" name="titulo" required>
+            </div>
 
-        <div class="form-group">
-            <label>Tipo de inmueble:</label>
-            <select name="tipo" required>
-                <option value="">Seleccionar</option>
-                <option value="Apartamento">Apartamento</option>
-                <option value="Casa">Casa</option>
-                <option value="Local">Local</option>
-                <option value="Lote">Lote</option>
-                <option value="Oficina">Oficina</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label>Descripción corta</label>
+                <textarea name="descripcion" rows="3"></textarea>
+            </div>
 
-        <div class="form-group">
-            <label>Municipio:</label>
-            <input type="text" name="municipio" required>
-        </div>
+            <div class="form-group full-width">
+                <label>Información detallada</label>
+                <textarea name="descripcion_larga" rows="5"></textarea>
+            </div>
 
-        <div class="form-group">
-            <label>Habitaciones:</label>
-            <input type="number" name="habitaciones" required>
-        </div>
+            <div class="form-group">
+                <label>Tipo de inmueble</label>
+                <select name="tipo" id="tipo" required>
+                    <option value="">Seleccionar</option>
+                    <option value="Casa">Casa</option>
+                    <option value="Apartamento">Apartamento</option>
+                    <option value="Oficina">Oficina</option>
+                    <option value="Local">Local</option>
+                    <option value="Lote">Lote</option>
+                </select>
+            </div>
 
-        <div class="form-group" id="group-banos">
-            <label>Baños:</label>
-            <input type="number" name="banos" min="0">
-        </div>
+            <div class="form-group">
+                <label>Municipio</label>
+                <input type="text" name="municipio" required>
+            </div>
 
-        <div class="form-group">
-            <label>Precio:</label>
-            <input type="number" name="precio" required>
-        </div>
+            <!-- CAMPOS DINÁMICOS -->
+            <div class="form-group campo-habitaciones">
+                <label>Habitaciones</label>
+                <input type="number" name="habitaciones">
+            </div>
 
-        <div class="form-group">
-            <label>Imagen URL:</label>
-            <input type="text" name="imagen_url">
-        </div>
+            <div class="form-group campo-banos">
+                <label>Baños</label>
+                <input type="number" name="banos">
+            </div>
 
-        <div class="form-group full-width">
-            <button type="submit">Agregar</button>
-        </div>
+            <div class="form-group campo-parqueadero">
+                <label>Parqueadero</label>
+                <select name="parqueadero">
+                    <option value="0">No</option>
+                    <option value="1">Sí</option>
+                </select>
+            </div>
 
-    </form>
-  </div>
+            <div class="form-group">
+                <label>Precio</label>
+                <input type="number" name="precio" required>
+            </div>
+
+            <div class="form-group full-width">
+                <label>Imagen URL</label>
+                <input type="text" name="imagen_url">
+            </div>
+
+            <div class="form-group full-width">
+                <button type="submit">Agregar inmueble</button>
+            </div>
+
+        </form>
+    </div>
+
+    <hr>
+
+    <!-- LISTA -->
+    <div class="admin-card">
+        <h3>Lista de inmuebles</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Tipo</th>
+                    <th>Municipio</th>
+                    <th>Imagen</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in inmuebles %}
+                <tr>
+                    <td>{{ i.id }}</td>
+                    <td>{{ i.titulo }}</td>
+                    <td>{{ i.tipo }}</td>
+                    <td>{{ i.municipio }}</td>
+                    <td>
+                        {% if i.imagen_url %}
+                            <img src="{{ i.imagen_url }}" alt="img">
+                        {% endif %}
+                    </td>
+                    <td>${{ "{:,.0f}".format(i.precio) }}</td>
+                    <td>
+    <div class="acciones">
+        <a href="{{ url_for('editar_inmueble', id=i.id) }}" class="btn-edit">
+            ✏️ Editar
+        </a>
+
+        <form action="{{ url_for('eliminar_inmueble', id=i.id) }}"
+              method="POST"
+              onsubmit="return confirm('¿Eliminar inmueble?')">
+            <button type="submit" class="btn-delete">
+                🗑️ Eliminar
+            </button>
+        </form>
+    </div>
+</td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
-
-<hr>
-
-<!-- TABLA DE INMUEBLES -->
-<h3>Lista de inmuebles</h3>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Título</th>
-        <th>Descripción</th>
-        <th>Tipo</th>
-        <th>Municipio</th>
-        <th>Habitaciones</th>
-        <th>Precio</th>
-        <th>Imagen</th>
-        <th>Acciones</th>
-    </tr>
-
-    {% for i in inmuebles %}
-    <tr>
-        <td>{{ i.id }}</td>
-        <td>{{ i.titulo }}</td>
-        <td>{{ i.descripcion }}</td>
-        <td>{{ i.tipo }}</td>
-        <td>{{ i.municipio }}</td>
-        <td>{{ i.habitaciones }}</td>
-        <td>${{ i.precio }}</td>
-        <td>
-            {% if i.imagen_url %}
-                <img src="{{ i.imagen_url }}" width="100">
-            {% endif %}
-        </td>
-        <td>
-            <a href="{{ url_for('editar_inmueble', id=i.id) }}">✏️ Editar</a>
-
-            <form action="{{ url_for('eliminar_inmueble', id=i.id) }}"
-                  method="POST" style="display:inline;">
-                <button type="submit">🗑️ Eliminar</button>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+<!-- ===============================
+     JS CAMPOS DINÁMICOS
+================================ -->
 <script>
-const tipoSelect = document.querySelector('select[name="tipo"]');
-
-const groupHabitaciones = document.querySelector('input[name="habitaciones"]').closest('.form-group');
-const groupBanos = document.querySelector('input[name="banos"]').closest('.form-group');
+const tipo = document.getElementById("tipo");
+const habitaciones = document.querySelector(".campo-habitaciones");
+const banos = document.querySelector(".campo-banos");
+const parqueadero = document.querySelector(".campo-parqueadero");
 
 function actualizarCampos() {
-    const tipo = tipoSelect.value;
+    habitaciones.style.display = "none";
+    banos.style.display = "none";
+    parqueadero.style.display = "none";
 
-    // Reset
-    groupHabitaciones.style.display = 'none';
-    groupBanos.style.display = 'none';
-
-    if (tipo === 'Casa' || tipo === 'Apartamento') {
-        groupHabitaciones.style.display = 'flex';
-        groupBanos.style.display = 'flex';
+    if (tipo.value === "Casa" || tipo.value === "Apartamento") {
+        habitaciones.style.display = "flex";
+        banos.style.display = "flex";
+        parqueadero.style.display = "flex";
     }
 
-    if (tipo === 'Oficina' || tipo === 'Local') {
-        groupBanos.style.display = 'flex';
+    if (tipo.value === "Oficina") {
+        banos.style.display = "flex";
+        parqueadero.style.display = "flex";
     }
-
-    // Lote → no muestra nada
 }
 
-tipoSelect.addEventListener('change', actualizarCampos);
+// Ejecutar al cargar
 actualizarCampos();
+tipo.addEventListener("change", actualizarCampos);
 </script>
 
 {% endblock %}
+
+

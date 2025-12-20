@@ -1,42 +1,41 @@
 {% extends "base.html" %}
-
 {% block content %}
-<div class="container">
 
-    <a href="{{ url_for('mostrar_inmuebles') }}" style="text-decoration:none;">← Volver al listado</a>
+<div class="detalle-inmueble">
 
-    <div class="detalle-inmueble" style="margin-top:20px;">
+    <h2>{{ inmueble.titulo }}</h2>
+    <p class="ubicacion">📍 {{ inmueble.municipio }}</p>
 
-        {% if inmueble.imagen_url %}
-            <img src="{{ inmueble.imagen_url }}"
-                 alt="Imagen del inmueble"
-                 style="width:100%; max-height:420px; object-fit:cover; border-radius:12px;">
-        {% endif %}
+    <img src="{{ inmueble.imagen_url or url_for('static', filename='img/no-image.jpg') }}">
+    
 
-        <h2 style="margin-top:20px;">{{ inmueble.titulo }}</h2>
-
-        <p><strong>{{ inmueble.tipo }}</strong> en <strong>{{ inmueble.municipio }}</strong></p>
-
-        <p><strong>Habitaciones:</strong> {{ inmueble.habitaciones }}</p>
-
-        <p><strong>Valor:</strong> ${{ inmueble.precio }}</p>
-
-        <hr>
-
-        <h3>Descripción</h3>
-        <p>{{ inmueble.descripcion }}</p>
-
-        <hr>
-
-        <h3>Información detallada</h3>
-
-            {% if inmueble.descripcion_larga and inmueble.descripcion_larga.strip() %}
-                <p>{{ inmueble.descripcion_larga }}</p>
-            {% else %}
-                <p><em>No hay información adicional para este inmueble.</em></p>
-            {% endif %}
-
+    <div class="datos-clave">
+    <div class="dato precio">
+        ${{ "{:,.0f}".format(inmueble.precio) }}
     </div>
 
+    {% if inmueble.habitaciones %}
+    <div class="dato">🛏 {{ inmueble.habitaciones }}</div>
+    {% endif %}
+
+    {% if inmueble.banos %}
+    <div class="dato">🚿 {{ inmueble.banos }}</div>
+    {% endif %}
+
+    {% if inmueble.parqueadero %}
+    <div class="dato">🚗 Parqueadero</div>
+    {% endif %}
 </div>
+
+<div class="separador"></div>
+
+
+    <h3>Descripción</h3>
+    <p>{{ inmueble.descripcion }}</p>
+
+    <h3>Información detallada</h3>
+    <p>{{ inmueble.descripcion_larga }}</p>
+
+</div>
+
 {% endblock %}

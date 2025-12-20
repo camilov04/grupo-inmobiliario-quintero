@@ -1,72 +1,40 @@
 {% extends "base.html" %}
-
 {% block content %}
 
-<!-- HERO PRINCIPAL -->
 <section class="hero">
     <div class="hero-content">
         <h2>Encuentra tu próximo inmueble</h2>
         <p>Casas, apartamentos y locales en Pereira y alrededores</p>
 
         <div class="hero-buttons">
-            <a href="{{ url_for('mostrar_inmuebles') }}" class="btn-primary">
-                Ver inmuebles
-            </a>
-            <a href="https://wa.me/573132552214" target="_blank" class="btn-secondary">
-                Contactar por WhatsApp
-            </a>
+            <a href="{{ url_for('mostrar_inmuebles') }}" class="btn-primary">Ver inmuebles</a>
+            <a href="https://wa.me/573132552214" class="btn-secondary">WhatsApp</a>
         </div>
     </div>
 </section>
 
-<!-- BUSCADOR RÁPIDO -->
-<section class="home-search container">
+<section class="home-search">
     <h3>Busca rápidamente</h3>
 
-    <form method="get" action="{{ url_for('mostrar_inmuebles') }}" class="search-form">
-        <input type="text" name="municipio" placeholder="Municipio">
-
+    <form class="search-form" method="GET" action="{{ url_for('mostrar_inmuebles') }}">
+        <input name="municipio" placeholder="Municipio">
         <select name="tipo">
             <option value="">Tipo de inmueble</option>
-            <option value="Apartamento">Apartamento</option>
-            <option value="Casa">Casa</option>
-            <option value="Local">Local</option>
-            <option value="Lote">Lote</option>
-            <option value="Oficina">Oficina</option>
+            <option>Casa</option>
+            <option>Apartamento</option>
+            <option>Local</option>
+            <option>Oficina</option>
+            <option>Lote</option>
         </select>
-
         <input type="number" name="valor_max" placeholder="Precio máximo">
-
-        <button type="submit">Buscar</button>
+        <button>Buscar</button>
     </form>
 </section>
 
-<!-- BENEFICIOS -->
-<section class="beneficios container">
-    <div class="beneficio">
-        <h4>✔ Inmuebles verificados</h4>
-        <p>Propiedades reales y disponibles</p>
-    </div>
-
-    <div class="beneficio">
-        <h4>✔ Atención personalizada</h4>
-        <p>Acompañamiento durante todo el proceso</p>
-    </div>
-
-    <div class="beneficio">
-        <h4>✔ Contacto directo</h4>
-        <p>Comunícate fácil por WhatsApp</p>
-    </div>
-</section>
-
-<!-- CTA FINAL -->
-<section class="cta-final">
-    <h3>¿No encuentras lo que buscas?</h3>
-    <p>Escríbenos y te ayudamos a encontrar el inmueble ideal</p>
-
-    <a href="https://wa.me/573132552214" target="_blank" class="btn-primary">
-        Hablar por WhatsApp
-    </a>
+<section class="beneficios">
+    <div class="beneficio">✔ Inmuebles verificados</div>
+    <div class="beneficio">✔ Atención personalizada</div>
+    <div class="beneficio">✔ Contacto directo</div>
 </section>
 
 {% endblock %}
