@@ -358,3 +358,112 @@ table button:hover {
     color: var(--text-color);
     text-decoration: none;
 }
+
+/* ===========================
+   HOME - HERO
+   =========================== */
+
+.hero {
+    background: linear-gradient(
+        rgba(0,0,0,0.55),
+        rgba(0,0,0,0.55)
+    ),
+    url("https://images.unsplash.com/photo-1568605114967-8130f3a36994") center/cover;
+    padding: 100px 20px;
+    text-align: center;
+    color: #fff;
+}
+
+.hero-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 12px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+}
+
+.btn-secondary {
+    background: #25d366;
+    color: white;
+}
+
+/* ===========================
+   BUSCADOR HOME
+   =========================== */
+
+.home-search h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+/* ===========================
+   BENEFICIOS
+   =========================== */
+
+.beneficios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.beneficio {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+/* ===========================
+   CTA FINAL
+   =========================== */
+
+.cta-final {
+    background: var(--primary);
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+    margin-top: 50px;
+}
+
+.cta-final p {
+    margin-bottom: 20px;
+}
+
+.cta-final .btn-primary {
+    background: white;
+    color: var(--primary);
+}
