@@ -87,8 +87,31 @@ def detalle_inmueble(inmueble_id):
 @app.route("/admin")
 @login_required
 def panel_admin():
-    inmuebles = Inmueble.query.all()
-    return render_template("admin.html", inmuebles=inmuebles)
+    total_inmuebles = Inmueble.query.count()
+    total_venta = Inmueble.query.filter_by(tipo_negocio="Venta").count()
+    total_arriendo = Inmueble.query.filter_by(tipo_negocio="Arriendo").count()
+
+    return render_template(
+        "admin.html",
+        total_inmuebles=total_inmuebles,
+        total_venta=total_venta,
+        total_arriendo=total_arriendo
+    )
+
+@app.route("/admin/inmuebles")
+@login_required
+def admin_inmuebles():
+    inmuebles = Inmueble.query.order_by(Inmueble.id.desc()).all()
+    return render_template(
+        "admin_inmuebles.html",
+        inmuebles=inmuebles
+    )
+
+@app.route("/admin/inmuebles/nuevo")
+@login_required
+def nuevo_inmueble():
+    return render_template("admin_nuevo_inmueble.html")
+
 
 @app.route("/agregar_inmueble", methods=["POST"])
 @login_required
