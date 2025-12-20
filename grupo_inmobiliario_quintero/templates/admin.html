@@ -52,6 +52,11 @@
             <input type="number" name="habitaciones" required>
         </div>
 
+        <div class="form-group" id="group-banos">
+            <label>Baños:</label>
+            <input type="number" name="banos" min="0">
+        </div>
+
         <div class="form-group">
             <label>Precio:</label>
             <input type="number" name="precio" required>
@@ -113,4 +118,33 @@
     </tr>
     {% endfor %}
 </table>
+<script>
+const tipoSelect = document.querySelector('select[name="tipo"]');
+
+const groupHabitaciones = document.querySelector('input[name="habitaciones"]').closest('.form-group');
+const groupBanos = document.querySelector('input[name="banos"]').closest('.form-group');
+
+function actualizarCampos() {
+    const tipo = tipoSelect.value;
+
+    // Reset
+    groupHabitaciones.style.display = 'none';
+    groupBanos.style.display = 'none';
+
+    if (tipo === 'Casa' || tipo === 'Apartamento') {
+        groupHabitaciones.style.display = 'flex';
+        groupBanos.style.display = 'flex';
+    }
+
+    if (tipo === 'Oficina' || tipo === 'Local') {
+        groupBanos.style.display = 'flex';
+    }
+
+    // Lote → no muestra nada
+}
+
+tipoSelect.addEventListener('change', actualizarCampos);
+actualizarCampos();
+</script>
+
 {% endblock %}

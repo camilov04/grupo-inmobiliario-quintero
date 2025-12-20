@@ -467,3 +467,90 @@ table button:hover {
     background: white;
     color: var(--primary);
 }
+
+/* ===========================
+   INMUEBLES - NUEVAS CARDS
+   =========================== */
+
+.page-title {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.inmueble-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.inmueble-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-body h3 {
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+}
+
+.precio {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+/* Iconos en columnas */
+.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.icon-grid div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    opacity: 0.9;
+}
+
+.icon-grid span {
+    font-size: 1.2rem;
+    display: block;
+}
+
+.icon-grid small {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.ubicacion {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+    text-align: center;
+}
+
+/* Ajuste link */
+.inmueble-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Imagen */
+.imagen-inmueble {
+    height: 200px;
+    object-fit: cover;
+}

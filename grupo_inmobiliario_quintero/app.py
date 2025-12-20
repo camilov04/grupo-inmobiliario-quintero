@@ -5,7 +5,7 @@ from functools import wraps
 app = Flask(__name__)
 app.secret_key = "clave_super_secreta"
 
-# Configurar base de datos SQLite
+# ------------------ CONFIG ------------------
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///inmuebles.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -16,10 +16,14 @@ class Inmueble(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     titulo = db.Column(db.String(100), nullable=False)
     descripcion = db.Column(db.String(255), nullable=False)
-    descripcion_larga = db.Column(db.Text)  # NUEVO CAMPO
+    descripcion_larga = db.Column(db.Text)
+
     tipo = db.Column(db.String(50), nullable=False)
     municipio = db.Column(db.String(100), nullable=False)
-    habitaciones = db.Column(db.Integer, nullable=False)
+
+    habitaciones = db.Column(db.Integer, nullable=True)
+    banos = db.Column(db.Integer, nullable=True)
+
     precio = db.Column(db.Float, nullable=False)
     imagen_url = db.Column(db.String(255))
 
@@ -38,6 +42,7 @@ def mostrar_inmuebles():
     municipio = request.args.get("municipio")
     tipo = request.args.get("tipo")
     habitaciones = request.args.get("habitaciones")
+    banos = request.args.get("banos")
     valor_min = request.args.get("valor_min")
     valor_max = request.args.get("valor_max")
 
@@ -47,10 +52,12 @@ def mostrar_inmuebles():
         query = query.filter_by(tipo=tipo)
     if habitaciones:
         query = query.filter(Inmueble.habitaciones >= int(habitaciones))
+    if banos:
+        query = query.filter(Inmueble.banos >= int(banos))
     if valor_min:
-        query = query.filter(Inmueble.precio >= int(valor_min))
+        query = query.filter(Inmueble.precio >= float(valor_min))
     if valor_max:
-        query = query.filter(Inmueble.precio <= int(valor_max))
+        query = query.filter(Inmueble.precio <= float(valor_max))
 
     inmuebles = query.all()
     return render_template("inmuebles.html", inmuebles=inmuebles)
@@ -97,13 +104,22 @@ def panel_admin():
 @app.route("/agregar_inmueble", methods=["POST"])
 @login_required
 def agregar_inmueble():
+
+    tipo = request.form.get("tipo")
+
+    habitaciones = request.form.get("habitaciones")
+    banos = request.form.get("banos")
+
     nuevo = Inmueble(
         titulo=request.form.get("titulo"),
         descripcion=request.form.get("descripcion"),
         descripcion_larga=request.form.get("descripcion_larga"),
-        tipo=request.form.get("tipo"),
+        tipo=tipo,
         municipio=request.form.get("municipio"),
-        habitaciones=int(request.form.get("habitaciones")),
+
+        habitaciones=int(habitaciones) if habitaciones else None,
+        banos=int(banos) if banos else None,
+
         precio=float(request.form.get("precio")),
         imagen_url=request.form.get("imagen_url")
     )
@@ -120,12 +136,19 @@ def editar_inmueble(id):
     inmueble = Inmueble.query.get_or_404(id)
 
     if request.method == "POST":
+
+        habitaciones = request.form.get("habitaciones")
+        banos = request.form.get("banos")
+
         inmueble.titulo = request.form.get("titulo")
         inmueble.descripcion = request.form.get("descripcion")
         inmueble.descripcion_larga = request.form.get("descripcion_larga")
         inmueble.tipo = request.form.get("tipo")
         inmueble.municipio = request.form.get("municipio")
-        inmueble.habitaciones = int(request.form.get("habitaciones"))
+
+        inmueble.habitaciones = int(habitaciones) if habitaciones else None
+        inmueble.banos = int(banos) if banos else None
+
         inmueble.precio = float(request.form.get("precio"))
         inmueble.imagen_url = request.form.get("imagen_url")
 

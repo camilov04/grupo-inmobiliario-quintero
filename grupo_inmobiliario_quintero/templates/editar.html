@@ -1,41 +1,105 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Editar inmueble</h2>
 
-<form method="POST">
-    <label>Título:</label>
-    <input type="text" name="titulo" value="{{ inmueble.titulo }}" required><br>
+<div class="admin-container">
+    <h2>Editar inmueble</h2>
 
-    <label>Descripción corta:</label>
-    <textarea name="descripcion" required>{{ inmueble.descripcion }}</textarea><br>
+    <div class="admin-card">
+        <form method="POST" class="admin-form">
 
-    <label>Información detallada:</label>
-    <textarea name="descripcion_larga" rows="6"
-        placeholder="Información ampliada del inmueble (servicios, zonas comunes, detalles, etc.)"
-    >{{ inmueble.descripcion_larga }}</textarea><br>
+            <div class="form-group">
+                <label>Título:</label>
+                <input type="text" name="titulo" value="{{ inmueble.titulo }}" required>
+            </div>
 
-    <label>Tipo de inmueble:</label>
-    <select name="tipo" required>
-        <option value="Apartamento" {% if inmueble.tipo == "Apartamento" %}selected{% endif %}>Apartamento</option>
-        <option value="Casa" {% if inmueble.tipo == "Casa" %}selected{% endif %}>Casa</option>
-        <option value="Local" {% if inmueble.tipo == "Local" %}selected{% endif %}>Local</option>
-        <option value="Lote" {% if inmueble.tipo == "Lote" %}selected{% endif %}>Lote</option>
-        <option value="Oficina" {% if inmueble.tipo == "Oficina" %}selected{% endif %}>Oficina</option>
-    </select><br>
+            <div class="form-group">
+                <label>Descripción corta:</label>
+                <textarea name="descripcion" required>{{ inmueble.descripcion }}</textarea>
+            </div>
 
-    <label>Municipio:</label>
-    <input type="text" name="municipio" value="{{ inmueble.municipio }}" required><br>
+            <div class="form-group full-width">
+                <label>Información detallada:</label>
+                <textarea
+                    name="descripcion_larga"
+                    rows="6"
+                    placeholder="Información ampliada del inmueble (servicios, zonas comunes, detalles, etc.)"
+                >{{ inmueble.descripcion_larga }}</textarea>
+            </div>
 
-    <label>Habitaciones:</label>
-    <input type="number" name="habitaciones" value="{{ inmueble.habitaciones }}" required><br>
+            <div class="form-group">
+                <label>Tipo de inmueble:</label>
+                <select name="tipo" id="tipo" required>
+                    <option value="">Seleccionar</option>
+                    <option value="Apartamento" {% if inmueble.tipo == "Apartamento" %}selected{% endif %}>Apartamento</option>
+                    <option value="Casa" {% if inmueble.tipo == "Casa" %}selected{% endif %}>Casa</option>
+                    <option value="Local" {% if inmueble.tipo == "Local" %}selected{% endif %}>Local</option>
+                    <option value="Lote" {% if inmueble.tipo == "Lote" %}selected{% endif %}>Lote</option>
+                    <option value="Oficina" {% if inmueble.tipo == "Oficina" %}selected{% endif %}>Oficina</option>
+                </select>
+            </div>
 
-    <label>Precio:</label>
-    <input type="number" name="precio" value="{{ inmueble.precio }}" required><br>
+            <div class="form-group">
+                <label>Municipio:</label>
+                <input type="text" name="municipio" value="{{ inmueble.municipio }}" required>
+            </div>
 
-    <label>Imagen URL:</label>
-    <input type="text" name="imagen_url" value="{{ inmueble.imagen_url }}"><br>
+            <!-- HABITACIONES -->
+            <div class="form-group" id="group-habitaciones">
+                <label>Habitaciones:</label>
+                <input type="number" name="habitaciones" value="{{ inmueble.habitaciones }}">
+            </div>
 
-    <button type="submit">Guardar cambios</button>
-</form>
+            <!-- BAÑOS -->
+            <div class="form-group" id="group-banos">
+                <label>Baños:</label>
+                <input type="number" name="banos" value="{{ inmueble.banos }}">
+            </div>
+
+            <div class="form-group">
+                <label>Precio:</label>
+                <input type="number" name="precio" value="{{ inmueble.precio }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Imagen URL:</label>
+                <input type="text" name="imagen_url" value="{{ inmueble.imagen_url }}">
+            </div>
+
+            <div class="form-group full-width">
+                <button type="submit">Guardar cambios</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- ==========================
+     JS: lógica por tipo inmueble
+     ========================== -->
+<script>
+const tipoSelect = document.getElementById("tipo");
+const habitacionesGroup = document.getElementById("group-habitaciones");
+const banosGroup = document.getElementById("group-banos");
+
+function actualizarCampos() {
+    const tipo = tipoSelect.value;
+
+    habitacionesGroup.style.display = "none";
+    banosGroup.style.display = "none";
+
+    if (tipo === "Casa" || tipo === "Apartamento") {
+        habitacionesGroup.style.display = "flex";
+        banosGroup.style.display = "flex";
+    }
+
+    if (tipo === "Oficina" || tipo === "Local") {
+        banosGroup.style.display = "flex";
+    }
+}
+
+tipoSelect.addEventListener("change", actualizarCampos);
+actualizarCampos(); // ejecutar al cargar
+</script>
+
 {% endblock %}
