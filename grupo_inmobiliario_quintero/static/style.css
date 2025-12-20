@@ -164,3 +164,90 @@ body.login-page {
         grid-template-columns: 1fr;
     }
 }
+
+/* ===========================
+   ESTILO ADMIN PANEL - TIPO BOOTSTRAP
+   =========================== */
+
+/* Contenedor general centrado */
+.admin-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 15px;
+}
+
+/* Card blanca con sombra */
+.admin-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Títulos dentro de admin */
+.admin-card h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* Grid de formulario */
+.admin-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px 25px;
+    width: 100%;
+}
+
+/* Campos agrupados */
+.admin-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Inputs, selects y textarea más cómodos */
+.admin-form input,
+.admin-form textarea,
+.admin-form select {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: border 0.2s ease;
+}
+
+.admin-form input:focus,
+.admin-form textarea:focus,
+.admin-form select:focus {
+    border-color: #0d6efd;
+    outline: none;
+}
+
+/* Que textbox largo ocupe todo */
+.admin-form .full-width {
+    grid-column: span 2;
+}
+
+/* Botón bonito */
+.admin-form button {
+    background: #0d6efd;
+    color: white;
+    font-size: 16px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.admin-form button:hover {
+    background: #0b5ed7;
+}
+
+/* Responsive: una columna en móviles */
+@media (max-width: 768px) {
+    .admin-form {
+        grid-template-columns: 1fr;
+    }
+}

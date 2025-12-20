@@ -5,65 +5,70 @@
 <a href="{{ url_for('logout') }}" class="btn-delete" style="float:right;">Cerrar sesión</a>
 
 <!-- FORMULARIO AGREGAR INMUEBLE -->
-<h2>Agregar inmueble</h2>
-<form method="POST" action="{{ url_for('agregar_inmueble') }}" class="admin-form">
+<div class="admin-container">
+    <h2>Agregar inmueble</h2>
 
-    <div class="form-group">
-        <label>Título:</label>
-        <input type="text" name="titulo" required>
-    </div>
+  <div class="admin-card">
+      <form method="POST" action="{{ url_for('agregar_inmueble') }}" class="admin-form">
 
-    <div class="form-group">
-        <label>Descripción corta:</label>
-        <textarea name="descripcion" required></textarea>
-    </div>
+        <div class="form-group">
+            <label>Título:</label>
+            <input type="text" name="titulo" required>
+        </div>
 
-    <div class="form-group full-width">
-        <label>Información detallada:</label>
-        <textarea 
-            name="descripcion_larga" 
-            rows="6"
-            placeholder="Información ampliada del inmueble (servicios, zonas comunes, detalles, etc.)">
-        </textarea>
-    </div>
+        <div class="form-group">
+            <label>Descripción corta:</label>
+            <textarea name="descripcion" required></textarea>
+        </div>
 
-    <div class="form-group">
-        <label>Tipo de inmueble:</label>
-        <select name="tipo" required>
-            <option value="">Seleccionar</option>
-            <option value="Apartamento">Apartamento</option>
-            <option value="Casa">Casa</option>
-            <option value="Local">Local</option>
-            <option value="Lote">Lote</option>
-            <option value="Oficina">Oficina</option>
-        </select>
-    </div>
+        <div class="form-group full-width">
+            <label>Información detallada:</label>
+            <textarea 
+                name="descripcion_larga" 
+                rows="6"
+                placeholder="Información ampliada del inmueble (servicios, zonas comunes, detalles, etc.)">
+            </textarea>
+        </div>
 
-    <div class="form-group">
-        <label>Municipio:</label>
-        <input type="text" name="municipio" required>
-    </div>
+        <div class="form-group">
+            <label>Tipo de inmueble:</label>
+            <select name="tipo" required>
+                <option value="">Seleccionar</option>
+                <option value="Apartamento">Apartamento</option>
+                <option value="Casa">Casa</option>
+                <option value="Local">Local</option>
+                <option value="Lote">Lote</option>
+                <option value="Oficina">Oficina</option>
+            </select>
+        </div>
 
-    <div class="form-group">
-        <label>Habitaciones:</label>
-        <input type="number" name="habitaciones" required>
-    </div>
+        <div class="form-group">
+            <label>Municipio:</label>
+            <input type="text" name="municipio" required>
+        </div>
 
-    <div class="form-group">
-        <label>Precio:</label>
-        <input type="number" name="precio" required>
-    </div>
+        <div class="form-group">
+            <label>Habitaciones:</label>
+            <input type="number" name="habitaciones" required>
+        </div>
 
-    <div class="form-group">
-        <label>Imagen URL:</label>
-        <input type="text" name="imagen_url">
-    </div>
+        <div class="form-group">
+            <label>Precio:</label>
+            <input type="number" name="precio" required>
+        </div>
 
-    <div class="form-group full-width">
-        <button type="submit">Agregar</button>
-    </div>
+        <div class="form-group">
+            <label>Imagen URL:</label>
+            <input type="text" name="imagen_url">
+        </div>
 
-</form>
+        <div class="form-group full-width">
+            <button type="submit">Agregar</button>
+        </div>
+
+    </form>
+  </div>
+</div>
 
 
 <hr>
