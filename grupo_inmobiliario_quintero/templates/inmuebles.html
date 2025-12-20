@@ -13,6 +13,11 @@
             <option>Oficina</option>
             <option>Lote</option>
         </select>
+        <select name="tipo_negocio">
+            <option value="">Venta / Arriendo</option>
+            <option value="Venta" {% if request.args.get('tipo_negocio') == 'Venta' %}selected{% endif %}>Venta</option>
+            <option value="Arriendo" {% if request.args.get('tipo_negocio') == 'Arriendo' %}selected{% endif %}>Arriendo</option>
+        </select>
         <button>Filtrar</button>
     </form>
 

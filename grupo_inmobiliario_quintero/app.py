@@ -69,6 +69,9 @@ def mostrar_inmuebles():
     if tipo:
         query = query.filter_by(tipo=tipo)
 
+    if tipo_negocio:
+        query = query.filter(Inmueble.tipo_negocio == tipo_negocio)
+
     if municipio:
         query = query.filter(Inmueble.municipio.ilike(f"%{municipio}%"))
 
