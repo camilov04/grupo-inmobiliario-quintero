@@ -8,6 +8,7 @@
     font-family: "Segoe UI", sans-serif;
 }
 
+
 /* =======================
    VARIABLES
 ======================= */
@@ -227,6 +228,9 @@ header nav a {
     padding: 30px;
     border-radius: 16px;
     border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
 }
 
 .detalle-inmueble img {
@@ -235,20 +239,46 @@ header nav a {
     object-fit: contain;
     background: #000;
     border-radius: 14px;
-    margin-bottom: 25px;
 }
 
+.detalle-inmueble h2 {
+    font-size: 1.6rem;
+}
+
+.detalle-inmueble .ubicacion {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* =======================
+   DATOS CLAVE (REUTILIZABLE)
+======================= */
 .datos-clave {
     display: flex;
-    gap: 15px;
     flex-wrap: wrap;
-    margin-bottom: 20px;
+    gap: 10px;
 }
 
 .dato {
-    padding: 10px 14px;
-    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
     border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+body.dark-mode .dato {
+    background: rgba(0,0,0,0.4);
+}
+
+.dato.precio {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+    border: none;
 }
 
 /* =======================
@@ -301,39 +331,85 @@ header nav a {
 }
 
 /* =======================
-   TABLAS
+   ADMIN – TABLA (FIX ÚNICO DEFINITIVO)
 ======================= */
+
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 30px;
+    table-layout: fixed;
 }
 
-th, td {
-    padding: 12px;
-    border-bottom: 1px solid var(--border);
+table th,
+table td {
+    padding: 14px 12px;
     text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--border);
 }
 
-td img {
+/* Imagen */
+table td img {
     width: 70px;
     height: 70px;
     object-fit: cover;
     border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Acciones */
+.acciones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Botones */
+.btn-edit,
+.btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 32px;
+    padding: 0;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.btn-edit {
+    background: #1e88e5;
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-delete {
+    background: #e53935;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-edit:hover,
+.btn-delete:hover {
+    opacity: 0.9;
 }
 
 /* =======================
-   FLOATING BUTTONS
+   BOTONES FLOTANTES
 ======================= */
+
 .dark-toggle {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    bottom: 90px;
+    right: 25px;
     background: #222;
     color: white;
     border: none;
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     font-size: 20px;
     cursor: pointer;
@@ -348,278 +424,31 @@ td img {
 }
 
 .whatsapp-float img {
-    width: 55px;
+    width: 52px;
+    height: 52px;
 }
+
 
 /* =======================
-   FOOTER
-======================= */
-footer {
-    text-align: center;
-    padding: 25px;
-    opacity: .7;
-}
-
-/* =======================
-   BOTONES ACCIONES ADMIN
+   FIX SELECT MODO OSCURO (REAL)
 ======================= */
 
-.acciones {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-/* Botón editar */
-.btn-edit {
-    background: #1e88e5;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.btn-edit:hover {
-    background: #1565c0;
-}
-
-/* Botón eliminar */
-.btn-delete {
-    background: #e53935;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 8px;
-    border: none;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.btn-delete:hover {
-    background: #c62828;
-}
-
-.campo-habitaciones,
-.campo-banos,
-.campo-parqueadero {
-    display: none;
-}
-
-/* =======================
-   FIX SELECT / OPTION DARK MODE
-======================= */
-
+/* Select cerrado */
 body.dark-mode select {
     background-color: #1c1c1c;
     color: #eaeaea;
     border: 1px solid #333;
 }
 
-/* Opciones del dropdown */
+/* Dropdown (opciones) */
 body.dark-mode select option {
-    background-color: #1c1c1c;
-    color: #eaeaea;
+    background-color: #1c1c1c !important;
+    color: #eaeaea !important;
 }
 
-/* Opción seleccionada / hover (Chrome) */
+/* Opción seleccionada / hover */
 body.dark-mode select option:checked,
 body.dark-mode select option:hover {
-    background-color: #2a2a2a;
-    color: #ffffff;
-}
-
-/* =======================
-   DETALLE INMUEBLE – MEJOR ESPACIADO
-======================= */
-
-.detalle-inmueble {
-    display: flex;
-    flex-direction: column;
-    gap: 25px; /* aire general */
-}
-
-/* Título */
-.detalle-inmueble h2 {
-    font-size: 1.6rem;
-    margin-bottom: 5px;
-}
-
-.detalle-inmueble .ubicacion {
-    font-size: 0.9rem;
-    opacity: 0.8;
-}
-
-/* Imagen */
-.detalle-inmueble img {
-    margin: 0 auto;
-}
-
-/* Separador elegante */
-.detalle-separador {
-    border: none;
-    height: 1px;
-    background: linear-gradient(
-        to right,
-        transparent,
-        var(--border),
-        transparent
-    );
-    margin: 10px 0;
-}
-
-/* Datos clave */
-.datos-clave {
-    margin-top: 10px;
-    padding-bottom: 10px;
-}
-
-/* Bloque descripción */
-.detalle-descripcion h4 {
-    margin-bottom: 8px;
-    font-size: 1.1rem;
-}
-
-.detalle-descripcion p {
-    line-height: 1.6;
-    opacity: 0.9;
-}
-
-/* ===========================
-   BLOQUE REUTILIZABLE DATOS
-=========================== */
-
-.datos-clave {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 15px 0;
-}
-
-.dato {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    padding: 8px 12px;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-body.dark-mode .dato {
-    background: rgba(0,0,0,0.4);
-}
-
-.dato.precio {
-    background: var(--primary);
-    color: #fff;
-    font-weight: 600;
-    border: none;
-}
-
-/* Separadores visuales */
-.separador {
-    border-top: 1px solid var(--border);
-    margin: 20px 0;
-}
-
-/* =======================
-   ADMIN – CAMPOS DINÁMICOS
-======================= */
-
-.campo-habitaciones,
-.campo-banos,
-.campo-parqueadero {
-    transition: all .2s ease;
-}
-
-/* =======================
-   BOTONES TABLA ADMIN
-======================= */
-
-.acciones {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-}
-
-.btn-edit {
-    background: #1e88e5;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 14px;
-}
-
-.btn-edit:hover {
-    opacity: .9;
-}
-
-.btn-delete {
-    background: #e53935;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.btn-delete:hover {
-    opacity: .9;
-}
-/* =======================
-   ADMIN - TABLA ACCIONES
-======================= */
-
-/* Alineación vertical uniforme */
-table td,
-table th {
-    vertical-align: middle;
-}
-
-/* Imagen consistente */
-table td img {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-    display: block;
-    margin: 0 auto;
-}
-
-/* Contenedor de acciones */
-.acciones {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-}
-
-/* Botones */
-.btn-edit {
-    background: #2196f3;
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 13px;
-}
-
-.btn-delete {
-    background: #e53935;
-    color: #fff;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
+    background-color: #2f2f2f !important;
+    color: #ffffff !important;
 }

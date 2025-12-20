@@ -22,9 +22,19 @@
             </div>
 
             <div class="form-group">
-                <label>Descripción corta</label>
-                <textarea name="descripcion">{{ inmueble.descripcion }}</textarea>
+                <label>Tipo de negocio</label>
+                <select name="tipo_negocio" required>
+                    <option value="Venta"
+                        {% if inmueble.tipo_negocio == "Venta" %}selected{% endif %}>
+                        Venta
+                    </option>
+                    <option value="Arriendo"
+                        {% if inmueble.tipo_negocio == "Arriendo" %}selected{% endif %}>
+                        Arriendo
+                    </option>
+                </select>
             </div>
+
 
             <div class="form-group full-width">
                 <label>Información detallada</label>

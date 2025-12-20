@@ -13,17 +13,16 @@ db = SQLAlchemy(app)
 # ================= MODELO =================
 class Inmueble(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+
     titulo = db.Column(db.String(100), nullable=False)
-    descripcion = db.Column(db.String(255), nullable=False)
-    descripcion_larga = db.Column(db.Text)
+    tipo_negocio = db.Column(db.String(20), nullable=False)  # Venta / Arriendo
+    descripcion = db.Column(db.Text, nullable=False)
 
     tipo = db.Column(db.String(50), nullable=False)
     municipio = db.Column(db.String(100), nullable=False)
 
     habitaciones = db.Column(db.Integer)
     banos = db.Column(db.Integer)
-    area = db.Column(db.Integer)
-
     parqueadero = db.Column(db.Boolean, default=False)
 
     precio = db.Column(db.Float, nullable=False)
@@ -38,36 +37,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return wrap
 
-# ================= PUBLIC =================
-@app.route("/")
-def home():
-    return render_template("index.html")
-
-@app.route("/inmuebles")
-def mostrar_inmuebles():
-    query = Inmueble.query
-
-    tipo = request.args.get("tipo")
-    municipio = request.args.get("municipio")
-    parqueadero = request.args.get("parqueadero")
-
-    if tipo:
-        query = query.filter_by(tipo=tipo)
-    if municipio:
-        query = query.filter(Inmueble.municipio.ilike(f"%{municipio}%"))
-    if parqueadero:
-        query = query.filter_by(parqueadero=True)
-
-    inmuebles = query.all()
-    return render_template("inmuebles.html", inmuebles=inmuebles)
-
-@app.route("/inmueble/<int:inmueble_id>")
-def detalle_inmueble(inmueble_id):
-    inmueble = Inmueble.query.get_or_404(inmueble_id)
-    return render_template("detalle_inmueble.html", inmueble=inmueble)
-
-# ================= AUTH =================
-@app.route("/login", methods=["GET","POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         if request.form["usuario"] == "admin" and request.form["contrasena"] == "1234":
@@ -77,8 +47,38 @@ def login():
 
 @app.route("/logout")
 def logout():
-    session.clear()
+    session.pop("usuario", None)
     return redirect(url_for("login"))
+
+# ================= PUBLICO =================
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+@app.route("/inmuebles")
+def mostrar_inmuebles():
+    query = Inmueble.query
+
+    tipo_negocio = request.args.get("tipo_negocio")
+    tipo = request.args.get("tipo")
+    municipio = request.args.get("municipio")
+
+    if tipo_negocio:
+        query = query.filter_by(tipo_negocio=tipo_negocio)
+
+    if tipo:
+        query = query.filter_by(tipo=tipo)
+
+    if municipio:
+        query = query.filter(Inmueble.municipio.ilike(f"%{municipio}%"))
+
+    inmuebles = query.all()
+    return render_template("inmuebles.html", inmuebles=inmuebles)
+
+@app.route("/inmueble/<int:inmueble_id>")
+def detalle_inmueble(inmueble_id):
+    inmueble = Inmueble.query.get_or_404(inmueble_id)
+    return render_template("detalle_inmueble.html", inmueble=inmueble)
 
 # ================= ADMIN =================
 @app.route("/admin")
@@ -92,45 +92,58 @@ def panel_admin():
 def agregar_inmueble():
     nuevo = Inmueble(
         titulo=request.form["titulo"],
+        tipo_negocio=request.form["tipo_negocio"],
         descripcion=request.form["descripcion"],
-        descripcion_larga=request.form["descripcion_larga"],
         tipo=request.form["tipo"],
         municipio=request.form["municipio"],
         habitaciones=request.form.get("habitaciones") or None,
         banos=request.form.get("banos") or None,
-        area=request.form.get("area") or None,
-        parqueadero=True if request.form.get("parqueadero") else False,
-        precio=request.form["precio"],
-        imagen_url=request.form["imagen_url"]
+        parqueadero=True if request.form.get("parqueadero") == "1" else False,
+        precio=float(request.form["precio"]),
+        imagen_url=request.form.get("imagen_url")
     )
+
     db.session.add(nuevo)
     db.session.commit()
     return redirect(url_for("panel_admin"))
 
-@app.route("/editar_inmueble/<int:id>", methods=["GET","POST"])
+@app.route("/editar/<int:id>", methods=["GET", "POST"])
 @login_required
 def editar_inmueble(id):
     inmueble = Inmueble.query.get_or_404(id)
 
     if request.method == "POST":
         inmueble.titulo = request.form["titulo"]
-        inmueble.descripcion = request.form["descripcion"]
+        inmueble.tipo_negocio = request.form["tipo_negocio"]
         inmueble.descripcion_larga = request.form["descripcion_larga"]
         inmueble.tipo = request.form["tipo"]
         inmueble.municipio = request.form["municipio"]
-        inmueble.habitaciones = request.form.get("habitaciones") or None
-        inmueble.banos = request.form.get("banos") or None
-        inmueble.area = request.form.get("area") or None
-        inmueble.parqueadero = True if request.form.get("parqueadero") else False
-        inmueble.precio = request.form["precio"]
-        inmueble.imagen_url = request.form["imagen_url"]
+
+        inmueble.habitaciones = (
+            int(request.form["habitaciones"])
+            if request.form.get("habitaciones")
+            else None
+        )
+
+        inmueble.banos = (
+            int(request.form["banos"])
+            if request.form.get("banos")
+            else None
+        )
+
+        inmueble.parqueadero = (
+            True if request.form.get("parqueadero") == "1" else False
+        )
+
+        inmueble.precio = float(request.form["precio"])
+        inmueble.imagen_url = request.form.get("imagen_url")
 
         db.session.commit()
         return redirect(url_for("panel_admin"))
 
     return render_template("editar.html", inmueble=inmueble)
 
-@app.route("/admin/eliminar/<int:id>", methods=["POST"])
+@app.route("/eliminar_inmueble/<int:id>", methods=["POST"])
 @login_required
 def eliminar_inmueble(id):
     inmueble = Inmueble.query.get_or_404(id)
