@@ -1,5 +1,24 @@
 {% extends "base_admin.html" %}
 {% block content %}
+<nav class="admin-breadcrumbs">
+    <a href="{{ url_for('panel_admin') }}">🏠 Panel</a>
+
+    {% if request.endpoint == 'admin_inmuebles' %}
+        <span>›</span>
+        <span>Inmuebles</span>
+    {% elif request.endpoint == 'nuevo_inmueble' %}
+        <span>›</span>
+        <a href="{{ url_for('admin_inmuebles') }}">Inmuebles</a>
+        <span>›</span>
+        <span>Nuevo</span>
+    {% elif request.endpoint == 'editar_inmueble' %}
+        <span>›</span>
+        <a href="{{ url_for('admin_inmuebles') }}">Inmuebles</a>
+        <span>›</span>
+        <span>Editar</span>
+    {% endif %}
+</nav>
+
 
 <div class="admin-dashboard">
 

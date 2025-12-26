@@ -714,3 +714,38 @@ body.dark-mode textarea {
         text-align: center;
     }
 }
+/* =======================
+   ADMIN – BREADCRUMBS
+======================= */
+
+.admin-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    margin-bottom: 22px;
+    color: var(--muted);
+    flex-wrap: wrap;
+}
+
+.admin-breadcrumbs a {
+    color: #42a5f5;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.admin-breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.admin-breadcrumbs span {
+    opacity: .8;
+}
+
+/* Mobile spacing */
+@media (max-width: 600px) {
+    .admin-breadcrumbs {
+        font-size: 13px;
+        gap: 6px;
+    }
+}
