@@ -1,28 +1,9 @@
 {% extends "base_admin.html" %}
 {% block content %}
-<nav class="admin-breadcrumbs">
-    <a href="{{ url_for('panel_admin') }}">🏠 Panel</a>
-
-    {% if request.endpoint == 'admin_inmuebles' %}
-        <span>›</span>
-        <span>Inmuebles</span>
-    {% elif request.endpoint == 'nuevo_inmueble' %}
-        <span>›</span>
-        <a href="{{ url_for('admin_inmuebles') }}">Inmuebles</a>
-        <span>›</span>
-        <span>Nuevo</span>
-    {% elif request.endpoint == 'editar_inmueble' %}
-        <span>›</span>
-        <a href="{{ url_for('admin_inmuebles') }}">Inmuebles</a>
-        <span>›</span>
-        <span>Editar</span>
-    {% endif %}
-</nav>
-
 
 <div class="admin-dashboard">
 
-    <h2>Panel de Administración</h2>
+    <h2>Panel de Administración, bienvenida mi vida, te amo ❤️</h2>
 
     <div class="dashboard-cards">
 
@@ -43,16 +24,15 @@
 
     </div>
 
-    <div class="admin-actions">
-    <a href="{{ url_for('admin_inmuebles') }}" class="btn-list">
-        📋 Ver inmuebles
-    </a>
+    <div class="dashboard-actions">
+        <a href="{{ url_for('admin_inmuebles') }}" class="btn-primary">
+            📋 Ver inmuebles
+        </a>
+        <a href="{{ url_for('nuevo_inmueble') }}" class="btn-secondary">
+            ➕ Agregar inmueble
+        </a>
 
-    <a href="{{ url_for('nuevo_inmueble') }}" class="btn-add">
-        ➕ Agregar inmueble
-    </a>
-</div>
-
+    </div>
 
 </div>
 
