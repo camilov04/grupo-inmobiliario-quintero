@@ -543,3 +543,174 @@ body.dark-mode textarea {
         border-radius: 12px;
     }
 }
+/* ===============================
+   ADMIN – MICRO INTERACCIONES
+   Hover / Tap (no rompe layout)
+================================ */
+
+/* Cards de inmuebles */
+.admin-item {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover desktop */
+.admin-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+/* Botones acciones */
+.btn-edit,
+.btn-delete,
+.btn-primary,
+.btn-secondary {
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+/* Hover */
+.btn-edit:hover,
+.btn-delete:hover,
+.btn-primary:hover,
+.btn-secondary:hover {
+    transform: scale(1.05);
+    opacity: 0.95;
+}
+
+/* Tap móvil */
+.btn-edit:active,
+.btn-delete:active,
+.btn-primary:active,
+.btn-secondary:active {
+    transform: scale(0.96);
+    box-shadow: none;
+}
+
+/* Evita selección rara en móvil */
+.btn-edit,
+.btn-delete,
+.btn-primary,
+.btn-secondary {
+    -webkit-tap-highlight-color: transparent;
+}
+/* ===============================
+   ADMIN – BOTONES SUPERIORES
+   Ver inmuebles / Agregar inmueble
+================================ */
+
+.admin-actions {
+    display: flex;
+    gap: 12px;
+    margin: 15px 0 25px;
+    flex-wrap: wrap;
+}
+
+/* Base común */
+.admin-actions a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Botón ver inmuebles */
+.admin-actions .btn-list {
+    background: rgba(255, 255, 255, 0.08);
+    color: #eaeaea;
+    border: 1px solid var(--border);
+}
+
+.admin-actions .btn-list:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+/* Botón agregar inmueble */
+.admin-actions .btn-add {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+}
+
+.admin-actions .btn-add:hover {
+    opacity: 0.95;
+}
+
+/* Tap móvil */
+.admin-actions a:active {
+    transform: scale(0.96);
+}
+/* =======================
+   ADMIN – HIGHLIGHT CTA
+======================= */
+
+/* Contenedor de acciones */
+.admin-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+/* Botón ver inmuebles (secundario) */
+.btn-list {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 12px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all .2s ease;
+}
+
+.btn-list:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+/* 🔥 BOTÓN DESTACADO – AGREGAR INMUEBLE */
+.btn-add {
+    background: linear-gradient(135deg, #1e88e5, #42a5f5);
+    color: #fff;
+    padding: 14px 22px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 8px 20px rgba(30,136,229,.35);
+    transition: all .25s ease;
+}
+
+/* Hover (desktop) */
+.btn-add:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(30,136,229,.45);
+}
+
+/* Tap (mobile) */
+.btn-add:active {
+    transform: scale(0.97);
+}
+
+/* =======================
+   RESPONSIVE (ADMIN)
+======================= */
+
+@media (max-width: 600px) {
+    .admin-actions {
+        flex-direction: column;
+    }
+
+    .btn-list,
+    .btn-add {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+}

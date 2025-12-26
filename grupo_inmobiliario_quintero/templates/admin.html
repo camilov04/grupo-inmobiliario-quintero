@@ -24,15 +24,16 @@
 
     </div>
 
-    <div class="dashboard-actions">
-        <a href="{{ url_for('admin_inmuebles') }}" class="btn-primary">
-            📋 Ver inmuebles
-        </a>
-        <a href="{{ url_for('nuevo_inmueble') }}" class="btn-secondary">
-            ➕ Agregar inmueble
-        </a>
+    <div class="admin-actions">
+    <a href="{{ url_for('admin_inmuebles') }}" class="btn-list">
+        📋 Ver inmuebles
+    </a>
 
-    </div>
+    <a href="{{ url_for('nuevo_inmueble') }}" class="btn-add">
+        ➕ Agregar inmueble
+    </a>
+</div>
+
 
 </div>
 
