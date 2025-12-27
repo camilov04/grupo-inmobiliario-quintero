@@ -141,7 +141,7 @@ def editar_inmueble(id):
     if request.method == "POST":
         inmueble.titulo = request.form["titulo"]
         inmueble.tipo_negocio = request.form["tipo_negocio"]
-        inmueble.descripcion_larga = request.form["descripcion_larga"]
+        inmueble.descripcion = request.form["descripcion"]
         inmueble.tipo = request.form["tipo"]
         inmueble.municipio = request.form["municipio"]
 
