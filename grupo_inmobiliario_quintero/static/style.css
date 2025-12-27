@@ -416,17 +416,43 @@ table td img {
     z-index: 999;
 }
 
+/* =======================
+   WHATSAPP FLOAT – FIX REDONDO
+======================= */
+
 .whatsapp-float {
     position: fixed;
     bottom: 25px;
     right: 25px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #25d366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,.3);
     z-index: 999;
+    transition: transform .2s ease, box-shadow .2s ease;
 }
 
 .whatsapp-float img {
-    width: 52px;
-    height: 52px;
+    width: 28px;
+    height: 28px;
+    display: block;
 }
+
+/* Hover / tap */
+.whatsapp-float:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(0,0,0,.4);
+}
+
+/* Mobile tap feedback */
+.whatsapp-float:active {
+    transform: scale(0.95);
+}
+
 
 
 /* =======================
