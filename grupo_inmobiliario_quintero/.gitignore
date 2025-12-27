@@ -1,2 +1,61 @@
-instance/inmuebles.db
+# =========================
+# Python
+# =========================
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# =========================
+# Entornos virtuales
+# =========================
+venv/
+.env/
+
+# =========================
+# Base de datos (MUY IMPORTANTE)
+# =========================
+instance/
+*.db
+
+# =========================
+# PythonAnywhere / temporales
+# =========================
+FETCH_HEAD
+
+# =========================
+# Sistema
+# =========================
+.DS_Store
+Thumbs.db
+# =========================
+# Python
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# =========================
+# Entornos virtuales
+# =========================
+venv/
+.env/
+
+# =========================
+# Base de datos (MUY IMPORTANTE)
+# =========================
+instance/
+*.db
+
+# =========================
+# PythonAnywhere / temporales
+# =========================
+FETCH_HEAD
+
+# =========================
+# Sistema
+# =========================
+.DS_Store
+Thumbs.db
+
