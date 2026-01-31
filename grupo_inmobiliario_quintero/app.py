@@ -81,7 +81,17 @@ def mostrar_inmuebles():
 @app.route("/inmueble/<int:inmueble_id>")
 def detalle_inmueble(inmueble_id):
     inmueble = Inmueble.query.get_or_404(inmueble_id)
-    return render_template("detalle_inmueble.html", inmueble=inmueble)
+
+    imagenes = []
+    if inmueble.imagen_url:
+        imagenes = [img.strip() for img in inmueble.imagen_url.split(",")]
+
+    return render_template(
+        "detalle_inmueble.html",
+        inmueble=inmueble,
+        imagenes=imagenes
+    )
+
 
 # ================= ADMIN =================
 @app.route("/admin")

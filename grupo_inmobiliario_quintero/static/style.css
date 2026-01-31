@@ -478,3 +478,65 @@ body.dark-mode select option:hover {
     background-color: #2f2f2f !important;
     color: #ffffff !important;
 }
+
+/* =======================
+   CARRUSEL INMUEBLES
+======================= */
+
+.carousel {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #000;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.4s ease;
+}
+
+.carousel-image {
+    width: 100%;
+    flex-shrink: 0;
+    object-fit: contain;
+    max-height: 450px;
+    background: #000;
+}
+
+/* Botones */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    font-size: 32px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.carousel-btn:hover {
+    background: rgba(0,0,0,0.75);
+}
+
+.carousel-btn.prev {
+    left: 12px;
+}
+
+.carousel-btn.next {
+    right: 12px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .carousel-image {
+        max-height: 300px;
+    }
+}
+
