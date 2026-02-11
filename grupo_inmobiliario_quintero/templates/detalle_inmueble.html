@@ -3,8 +3,14 @@
 
 <div class="detalle-inmueble">
 
-    <!-- Imagen principal -->
-    <div class="carousel">
+<!-- ===== CARRUSEL ===== -->
+
+<div class="carousel">
+
+```
+<div class="carousel-main">
+
+    <button class="carousel-btn prev">‹</button>
 
     <div class="carousel-track">
         {% for img in imagenes %}
@@ -12,53 +18,83 @@
         {% endfor %}
     </div>
 
-    <button class="carousel-btn prev">‹</button>
     <button class="carousel-btn next">›</button>
 
 </div>
 
-    <!-- Título -->
-    <h2>{{ inmueble.titulo }}</h2>
-    <p class="ubicacion">{{ inmueble.municipio }}</p>
+<!-- DOTS -->
+<div class="carousel-dots">
+    {% for img in imagenes %}
+        <span class="dot"></span>
+    {% endfor %}
+</div>
 
-    <!-- Datos clave -->
-    <div class="datos-clave">
+<!-- MINIATURAS -->
+<div class="carousel-thumbs">
+    {% for img in imagenes %}
+        <img src="{{ img }}" class="thumb">
+    {% endfor %}
+</div>
+```
 
-        <div class="dato precio">
-            {{ inmueble.tipo_negocio }} · ${{ "{:,.0f}".format(inmueble.precio) }}
-        </div>
+</div>
 
-        <div class="dato">
-            {{ inmueble.tipo }}
-        </div>
+<!-- ===== INFO ===== -->
 
-        {% if inmueble.habitaciones and inmueble.habitaciones > 0 %}
-        <div class="dato">
-            🛏 {{ inmueble.habitaciones }} habitaciones
-        </div>
-        {% endif %}
+<h2>{{ inmueble.titulo }}</h2>
+<p class="ubicacion">{{ inmueble.municipio }}</p>
 
-        {% if inmueble.banos and inmueble.banos > 0 %}
-        <div class="dato">
-            🚿 {{ inmueble.banos }} baños
-        </div>
-        {% endif %}
+<div class="datos-clave">
 
-        {% if inmueble.parqueadero %}
-        <div class="dato">
-            🚗 Parqueadero
-        </div>
-        {% endif %}
+```
+<div class="dato precio">
+    {{ inmueble.tipo_negocio }} · ${{ "{:,.0f}".format(inmueble.precio) }}
+</div>
 
+<div class="dato">{{ inmueble.tipo }}</div>
+
+{% if inmueble.habitaciones %}
+<div class="dato">🛏 {{ inmueble.habitaciones }}</div>
+{% endif %}
+
+{% if inmueble.banos %}
+<div class="dato">🚿 {{ inmueble.banos }}</div>
+{% endif %}
+
+{% if inmueble.parqueadero %}
+<div class="dato">🚗 Parqueadero</div>
+{% endif %}
+```
+
+</div>
+
+<hr>
+
+<div class="detalle-descripcion">
+    <h4>Descripción</h4>
+    <p>{{ inmueble.descripcion }}</p>
+</div>
+
+</div>
+
+<!-- ===== FULLSCREEN ===== -->
+
+<div class="fullscreen-viewer" id="fullscreenViewer">
+
+```
+<button class="fs-close">✕</button>
+<button class="fs-arrow fs-prev">‹</button>
+
+<div class="fs-container">
+    <div class="fs-track">
+        {% for img in imagenes %}
+            <img src="{{ img }}" class="fs-slide">
+        {% endfor %}
     </div>
+</div>
 
-    <hr class="detalle-separador">
-
-    <!-- Descripción -->
-    <div class="detalle-descripcion">
-        <h4>Descripción</h4>
-        <p>{{ inmueble.descripcion }}</p>
-    </div>
+<button class="fs-arrow fs-next">›</button>
+```
 
 </div>
 
@@ -66,72 +102,105 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const track = document.querySelector(".carousel-track");
-    if (!track) return;
-
     const slides = Array.from(track.children);
 
-    const nextBtn = document.querySelector(".next");
-    const prevBtn = document.querySelector(".prev");
+    const nextBtn = document.querySelector(".carousel-btn.next");
+    const prevBtn = document.querySelector(".carousel-btn.prev");
+
+    const dots = document.querySelectorAll(".dot");
+    const thumbs = document.querySelectorAll(".thumb");
 
     let index = 0;
 
     function updateCarousel() {
+
         track.style.transform = `translateX(-${index * 100}%)`;
+
+        dots.forEach((d, i) => d.classList.toggle("active", i === index));
+        thumbs.forEach((t, i) => t.classList.toggle("active", i === index));
     }
 
-    /* ---------- FLECHA SIGUIENTE ---------- */
-    if (nextBtn) {
-        nextBtn.addEventListener("click", () => {
-            index = (index + 1) % slides.length;
-            updateCarousel();
-        });
-    }
-
-    /* ---------- FLECHA ANTERIOR ---------- */
-    if (prevBtn) {
-        prevBtn.addEventListener("click", () => {
-            index = index === 0 ? slides.length - 1 : index - 1;
-            updateCarousel();
-        });
-    }
-
-    /* ---------- SWIPE TOUCH ---------- */
-    let startX = 0;
-    let currentX = 0;
-    let isDragging = false;
-
-    track.addEventListener("touchstart", (e) => {
-        startX = e.touches[0].clientX;
-        isDragging = true;
-    });
-
-    track.addEventListener("touchmove", (e) => {
-        if (!isDragging) return;
-        currentX = e.touches[0].clientX;
-    });
-
-    track.addEventListener("touchend", () => {
-        if (!isDragging) return;
-
-        let diff = startX - currentX;
-
-        if (diff > 50) {
-            index = (index + 1) % slides.length;
-        }
-
-        if (diff < -50) {
-            index = index === 0 ? slides.length - 1 : index - 1;
-        }
-
+    nextBtn.onclick = () => {
+        index = (index + 1) % slides.length;
         updateCarousel();
-        isDragging = false;
+    };
+
+    prevBtn.onclick = () => {
+        index = index === 0 ? slides.length - 1 : index - 1;
+        updateCarousel();
+    };
+
+    dots.forEach((dot, i) => {
+        dot.onclick = () => {
+            index = i;
+            updateCarousel();
+        };
+    });
+
+    thumbs.forEach((thumb, i) => {
+        thumb.onclick = () => {
+            index = i;
+            updateCarousel();
+        };
+    });
+
+    /* SWIPE */
+    let startX = 0;
+
+    track.addEventListener("touchstart", e => {
+        startX = e.touches[0].clientX;
+    });
+
+    track.addEventListener("touchend", e => {
+        let diff = startX - e.changedTouches[0].clientX;
+
+        if (diff > 50) nextBtn.click();
+        if (diff < -50) prevBtn.click();
+    });
+
+    updateCarousel();
+
+    /* ===== FULLSCREEN ===== */
+
+    const viewer = document.getElementById("fullscreenViewer");
+    const fsTrack = document.querySelector(".fs-track");
+    const fsSlides = document.querySelectorAll(".fs-slide");
+
+    const fsNext = document.querySelector(".fs-next");
+    const fsPrev = document.querySelector(".fs-prev");
+    const fsClose = document.querySelector(".fs-close");
+
+    let fsIndex = 0;
+
+    slides.forEach((slide, i) => {
+        slide.addEventListener("click", () => {
+            viewer.classList.add("active");
+            fsIndex = index;
+            updateFS();
+        });
+    });
+
+    function updateFS() {
+        fsTrack.style.transform = `translateX(-${fsIndex * 100}%)`;
+    }
+
+    fsNext.onclick = () => {
+        fsIndex = (fsIndex + 1) % fsSlides.length;
+        updateFS();
+    };
+
+    fsPrev.onclick = () => {
+        fsIndex = fsIndex === 0 ? fsSlides.length - 1 : fsIndex - 1;
+        updateFS();
+    };
+
+    fsClose.onclick = () => viewer.classList.remove("active");
+
+    viewer.addEventListener("click", e => {
+        if (e.target === viewer) viewer.classList.remove("active");
     });
 
 });
 </script>
-
-
-
-
 
 {% endblock %}
