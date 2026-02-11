@@ -505,6 +505,21 @@ body.dark-mode select option:hover {
     background: #000;
 }
 
+.carousel button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    pointer-events: auto;
+}
+
+.carousel-prev {
+    left: 10px;
+}
+
+.carousel-next {
+    right: 10px;
+}
 /* Botones */
 .carousel-btn {
     position: absolute;
@@ -540,3 +555,22 @@ body.dark-mode select option:hover {
     }
 }
 
+/* =======================
+   CARRUSEL – SWIPE MÓVIL
+======================= */
+
+.carousel {
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-track {
+    touch-action: pan-y;
+    display: flex;
+    transition: transform 0.4s ease;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    object-fit: cover;
+}
